@@ -17,7 +17,7 @@ public class BankDB {
      * @param cpf the account tax number.
      * @return an {@code Account}.
      */
-    public static Account getAccount(final String cpf) {
+    public Account getAccount(final String cpf) {
         try {
             return Account.findById(cpf);
         } catch (final Exception e) {
@@ -32,7 +32,7 @@ public class BankDB {
      * @param account the account to update.
      * @return an {@code Exception} if the operation didn't work.
      */
-    public static Exception updateAccountBalance(final Account a) {
+    public Exception updateAccountBalance(final Account account) {
         Exception ex = null;
 
         try {
