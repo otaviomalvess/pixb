@@ -4,14 +4,16 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-@ApplicationScoped
-@Path("/pixb/pix")
+@Consumes(MediaType.APPLICATION_JSON)
+@Path("/bank/pix")
 public class BankPixResource {
 
     @Inject
@@ -19,21 +21,33 @@ public class BankPixResource {
 
     @GET
     @Path("/{key}")
-    public Response consultEntry(@PathParam("key") String key) {
+    public Response consultEntry(@PathParam("key") final String key) {
         try {
-            return pixService.consultKey(key);
-        } catch (Exception e) {
+            // return pixService.consultKey(key)
+            return Response.ok(key).build();
+        } catch (final Exception e) {
             return Response.serverError().build();
         }
     }
 
     @POST
-    @Path("/start")
-    public Response start(final BankStartPixDTO startPix) {
+    @Path("/create-pix-request")
+    public Response createPixRequest(final BankStartPixDTO startPix) {
         try {
-            BankPixControl.createPixRequest(startPix, pixService);
+            bankPixControl.createPixRequest(startPix);
             return Response.ok().build();
-        } catch (Exception e) {
+        } catch (final Exception e) {
+            return Response.serverError().build();
+        }
+    }
+
+    @GET
+    @Path("/consult-pix-requests")
+    public Response consultPixRequests() {
+        try {
+            bankPixControl.consultPixRequests();
+            return Response.ok().build();
+        } catch (final Exception e) {
             return Response.serverError().build();
         }
     }
