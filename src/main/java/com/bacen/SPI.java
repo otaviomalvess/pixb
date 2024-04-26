@@ -29,11 +29,11 @@ public class SPI {
         
         pix.resolved = BacenPix.ResolvedStates.REQUEST;
         
-        System.out.println("[INFO] (bacen.SPI.createPixRequest) Start.");
+        logger.info("(createPixRequest) Start.");
         
         BacenDB.createPixRequest(pix);
         
-        System.out.println("[INFO] (bacen.SPI.createPixRequest) End.");
+        logger.info("(createPixRequest) End.");
     }
 
     /**
@@ -54,16 +54,21 @@ public class SPI {
      */
     public static void closeRequests(BacenPixRequestUpdateDTO[] toUpdate) {
         if (toUpdate == null) {
-            System.out.println("[ERROR] (bacen.SPI.closeRequests) Given end-to-end list is null.");
+            logger.error("(updatePixRequests) Given end-to-end list is null.");
             return;
         }
+
+        logger.info("(updatePixRequests) Start.");
 
         if (toUpdate.length == 0) {
             return;
         }
 
         for (final BacenPixRequestUpdateDTO pix : toUpdate) {
-            BacenDB.updatePixRequestState(pix);
+
+            logger.info("(updatePixRequests) Pix updated.");
         }
+
+        logger.info("(updatePixRequests) End.");
     }
 }

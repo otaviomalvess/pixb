@@ -39,8 +39,8 @@ public class Dict {
             return null;
         }
 
-        System.out.println("[INFO] (bacen.Dict) Start consult entry. Key: " + key);
-        System.out.println("[INFO] (bacen.Dict) Get entry: " + BacenDB.getEntry(key));
+        logger.info("(consultEntry) Start. Key: " + key);
+        logger.info("(consultEntry) Get entry: " + db.getEntry(key));
         
         return BacenDB.getEntry(key);
     }

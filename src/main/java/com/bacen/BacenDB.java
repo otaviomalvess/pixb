@@ -68,8 +68,8 @@ public class BacenDB {
         try {
             return BacenPix.list("resolved", BacenPix.ResolvedStates.REQUEST);
         } catch (final Exception e) {
-            System.out.println(e);
-            System.out.println("[ERROR] (bacen.DB.consultRequest) Consult pix request.");
+            logger.error(e);
+            logger.error("(getRequests) Consult pix request.");
             return null;
         }
     }
@@ -90,8 +90,8 @@ public class BacenDB {
             p.resolved = pix.resolved;
             BacenPix.persist(p);
         } catch (final Exception e) {
-            System.out.println(e);
-            System.out.println("[ERROR] (bacen.DB.updatePixRequest) Update pix request. Id: " + pix.endToEndId);
+            logger.error(e);
+            logger.error("(updatePixRequest) Update pix request. Id: " + pix.endToEndId);
         }
     }
 }

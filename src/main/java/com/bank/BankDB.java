@@ -20,8 +20,8 @@ public class BankDB {
     public static Account getAccount(final String cpf) {
         try {
             return Account.findById(cpf);
-        } catch (Exception e) {
-            System.out.println("[ERROR] (com.bank.BankDB) Find account by id: cpf.");
+        } catch (final Exception e) {
+            logger.error("(getAccount) " + e);
             return null;
         }
     }
@@ -36,9 +36,9 @@ public class BankDB {
         Exception ex = null;
 
         try {
-            Account.persist(a);
-        } catch (Exception e) {
-            System.out.println("[ERROR] (com.bank.BankDB) " + e.getMessage());
+            account.persist();
+        } catch (final Exception e) {
+            logger.error("(updateAccountBalance) " + e);
             ex = new Exception("");
         }
 
