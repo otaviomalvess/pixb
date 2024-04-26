@@ -15,7 +15,13 @@ public class Dict {
 
     @Inject
     private Logger logger;
-
+    
+    /**
+     * Checks if there are any {@code Entry} matching the given keys.
+     *
+     * @param keys array of {@code Entry} keys.
+     * @return a {@code LinkedHashMap} containing the array of keys and an array of booleans. 
+     */
     public LinkedHashMap<String, Object> consultExistentKeys(final String[] keys) {
         if (keys == null || keys.length == 0) {
             return null;
@@ -34,7 +40,13 @@ public class Dict {
         return r;
     }
 
-    public static BacenEntry consultEntry(final String key) {
+    /**
+     * Checks if there are any {@code Entry} matching the given keys.
+     *
+     * @param keys array of {@code Entry} keys.
+     * @return the returned {@code Entry}. 
+     */
+    public BacenEntry consultEntry(final String key) {
         if (key.isBlank()) {
             return null;
         }
