@@ -48,7 +48,7 @@ public class BacenDB {
     @Transactional
     public void createPixRequest(final BacenPix pix) {
         try {
-            p.persist();
+            pix.persist();
             // final Session s = PanacheEntityBase.getEntityManager().unwrap(Session.class);
             // s.merge(p);
         } catch (final Exception e) {
