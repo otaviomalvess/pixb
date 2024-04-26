@@ -8,7 +8,7 @@ import jakarta.ws.rs.core.Response;
 
 @Path("/api/entry")
 public class DirectoryResource {
-    
+
     @Inject
     private Dict dict;
 
@@ -16,13 +16,11 @@ public class DirectoryResource {
     @Path("{key}")
     public Response cosultEntry(@PathParam("key") String key) {
         try {
-            BacenEntry e = Dict.consultEntry(key);
-            logger.info(e.toString());
             return Response
-                    .ok(e)
+                    .ok(dict.consultEntry(key))
                     .build();
-        } catch (Exception e) {
-            logger.debug(e.getMessage());
+        } catch (final Exception e) {
+            System.out.println(e);
             return Response.serverError().build();
         }
     }

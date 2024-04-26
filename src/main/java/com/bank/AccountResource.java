@@ -1,9 +1,5 @@
 package com.bank;
 
-import org.jboss.logging.Logger;
-
-import jakarta.inject.Inject;
-
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -17,17 +13,12 @@ import jakarta.ws.rs.core.Response;
 @Consumes(MediaType.APPLICATION_JSON)
 public class AccountResource {
 
-    @Inject
-    private Logger logger;
-
     @GET
     public Response accountInfo(@PathParam("id") Long id) {
         try {
-            return Response
-                    .ok()
-                    .build();
-        } catch(Exception e) {
-            logger.debug(e.getMessage());
+            return Response.ok().build();
+        } catch(final Exception e) {
+            System.out.println(e);
             return Response.serverError().build();
         }
     }

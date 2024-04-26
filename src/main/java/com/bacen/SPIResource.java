@@ -5,8 +5,10 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+@Consumes(MediaType.APPLICATION_JSON)
 @Path("/bacen/spi/request")
 public class SPIResource {
 
@@ -14,11 +16,11 @@ public class SPIResource {
     private SPI spi;
 
     @POST
-    public Response saveRequest(BacenPix pix) {
+    public Response saveRequest(final BacenPix pix) {
         try {
-            SPI.createPixRequest(pix);
+            spi.createPixRequest(pix);
             return Response.ok().build();
-        } catch (Exception e) {
+        } catch (final Exception e) {
             return Response.serverError().build();
         }
     }
@@ -28,17 +30,17 @@ public class SPIResource {
         try {
             return Response
                     .ok()
-                    .entity(SPI.consultRequest())
+                    .entity(spi.getPixRequests(true))
                     .build();
-        } catch (Exception e) {
+        } catch (final Exception e) {
             return Response.serverError().build();
         }
     }
 
     @PUT
-    public Response updateRequest(BacenPixRequestUpdateDTO[] toUpdate) {
+    public Response updateRequest(final BacenPixRequestUpdateDTO[] toUpdate) {
         try {
-            SPI.closeRequests(toUpdate);
+            spi.updatePixRequests(toUpdate);
             return Response.ok().build();
         } catch (Exception e) {
             return Response.serverError().build();

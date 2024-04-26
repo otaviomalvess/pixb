@@ -9,23 +9,23 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-@Path("/bacen/dict")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@Path("/bacen/dict")
 public class DictResource {
     
     @Inject
     private Dict dict;
-    
+
     @GET
     @Path("/entry/{key}")
-    public Response getEntry(@PathParam("key") String key) {
+    public Response getEntry(@PathParam("key") final String key) {
         try {
             return Response
                     .ok()
-                    .entity(Dict.consultEntry(key))
+                    .entity(dict.consultEntry(key))
                     .build();
-        } catch (Exception e) {
+        } catch (final Exception e) {
             return Response.serverError().build();
         }
     }

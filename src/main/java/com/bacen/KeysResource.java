@@ -7,18 +7,18 @@ import jakarta.ws.rs.core.Response;
 
 @Path("/api/keys")
 public class KeysResource {
-    
+
     @Inject
     private Dict dict;
 
     @POST
-    public Response keysCheck(String[] body) {
+    public Response keysCheck(final String[] body) {
         try {
             return Response
-                    .ok(Dict.consultExistentKeys(body))
+                    .ok(dict.consultExistentKeys(body))
                     .build();
-        } catch(Exception e) {
-            logger.debug(e.getMessage());
+        } catch(final Exception e) {
+            System.out.println(e);
             return Response.serverError().build();
         }
     }
