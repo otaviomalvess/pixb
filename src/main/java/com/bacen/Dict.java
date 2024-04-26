@@ -2,9 +2,21 @@ package com.bacen;
 
 import java.util.LinkedHashMap;
 
+import org.jboss.logging.Logger;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+
+@ApplicationScoped
 public class Dict {
 
-    public static LinkedHashMap<String, Object> consultExistentKeys(final String[] keys) {
+    @Inject
+    private BacenDB db;
+
+    @Inject
+    private Logger logger;
+
+    public LinkedHashMap<String, Object> consultExistentKeys(final String[] keys) {
         if (keys == null || keys.length == 0) {
             return null;
         }

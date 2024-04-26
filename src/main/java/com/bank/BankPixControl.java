@@ -1,12 +1,24 @@
 package com.bank;
 
+import org.jboss.logging.Logger;
+
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 
 @ApplicationScoped
 public class BankPixControl {
 
-    // TODO: still haven't figured out why PixService can't get injected in this class.
+    @Inject
+    @RestClient
+    private BankPixService pixService;
+
+    @Inject
+    private BankDB db;
+
+    @Inject
+    private Logger logger;
+
 
     /**
      * Create pix request.

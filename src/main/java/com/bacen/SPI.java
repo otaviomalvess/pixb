@@ -2,7 +2,19 @@ package com.bacen;
 
 import java.util.List;
 
+import org.jboss.logging.Logger;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+
+@ApplicationScoped
 public class SPI {
+
+    @Inject
+    private BacenDB db;
+
+    @Inject
+    private Logger logger;
 
     /**
      * Create pix request.

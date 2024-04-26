@@ -1,6 +1,15 @@
 package com.bank;
 
+import org.jboss.logging.Logger;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+
+@ApplicationScoped
 public class BankDB {
+
+    @Inject
+    private Logger logger;
 
     /**
      * Gets the account from the DB.

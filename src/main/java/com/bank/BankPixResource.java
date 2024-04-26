@@ -15,8 +15,7 @@ import jakarta.ws.rs.core.Response;
 public class BankPixResource {
 
     @Inject
-    @RestClient
-    private BankPixService pixService;
+    private BankPixControl bankPixControl;
 
     @GET
     @Path("/{key}")

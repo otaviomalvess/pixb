@@ -1,7 +1,5 @@
 package com.bacen;
 
-import org.jboss.logging.Logger;
-
 import jakarta.inject.Inject;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -11,7 +9,7 @@ import jakarta.ws.rs.core.Response;
 public class KeysResource {
     
     @Inject
-    private Logger logger;
+    private Dict dict;
 
     @POST
     public Response keysCheck(String[] body) {

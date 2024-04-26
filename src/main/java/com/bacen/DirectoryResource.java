@@ -1,7 +1,5 @@
 package com.bacen;
 
-import org.jboss.logging.Logger;
-
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -12,7 +10,7 @@ import jakarta.ws.rs.core.Response;
 public class DirectoryResource {
     
     @Inject
-    private Logger logger;
+    private Dict dict;
 
     @GET
     @Path("{key}")
