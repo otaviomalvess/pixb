@@ -29,6 +29,11 @@ public class Account extends PanacheEntityBase {
     @Column(name = "balance")
     public double balance;
 
+    /**
+     * Set the account name.
+     *
+     * @param name the name of the account.
+     */
     public void setName(String name) {
         if (name.isBlank()) {
             return;
@@ -37,6 +42,11 @@ public class Account extends PanacheEntityBase {
         this.name = name;
     }
 
+    /**
+     * Deposits the given amount to the balance.
+     *
+     * @param value the amount to add.
+     */
     public Exception deposit(double value) {
         if (value <= .00) {
             return new Exception("Given value has to be higher than 0.0.");
@@ -46,6 +56,12 @@ public class Account extends PanacheEntityBase {
         return null;
     }
 
+    /**
+     * Draws the requested amount from the balance.
+     *
+     * @param value the amount to draw.
+     * @return an {@code Exception} if the given value is smaller than 0.0 or if the account hasn't enough balance.
+     */
     public Exception draw(double value) {
         if (value <= .0) {
             return new Exception("Given value has to be higher than 0.0.");
