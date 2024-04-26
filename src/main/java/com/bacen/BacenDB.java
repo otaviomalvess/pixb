@@ -66,7 +66,7 @@ public class BacenDB {
     public List<BacenPix> getRequests(final boolean byResolvedState) {
         final String query = byResolvedState ? "resolved" : "NOT resolved";
         try {
-            return BacenPix.list("resolved", BacenPix.ResolvedStates.REQUEST);
+            return BacenPix.list(query, BacenPix.ResolvedStates.REQUEST);
         } catch (final Exception e) {
             logger.error(e);
             logger.error("(getRequests) Consult pix request.");
