@@ -7,10 +7,10 @@ import jakarta.transaction.Transactional;
 public class BacenDB {
 
      /**
-     * Get entries.
+     * Gets an array entries matching the given keys.
      *
-     * @param cpf .
-     * @return .
+     * @param keys an array of entry keys. 
+     * @return an array of {@code BacenEntry}.
      */
     public static BacenEntry[] getEntries(final String[] keys) {
         final BacenEntry[] entries = new BacenEntry[keys.length];
@@ -23,20 +23,19 @@ public class BacenDB {
     }
 
      /**
-     * Get entry.
+     * Gets an entry matching the given key.
      *
-     * @param cpf .
-     * @return .
+     * @param key the entry key.
+     * @return a {@code BacenEntry}.
      */
     public static BacenEntry getEntry(final String key) {
         return BacenEntry.findById(key);
     }
 
      /**
-     * Create pix request.
+     * Creates a new Pix Request.
      *
-     * @param cpf .
-     * @return .
+     * @param pix .
      */
     @Transactional
     public static void createPixRequest(final BacenPix p) {
@@ -51,10 +50,10 @@ public class BacenDB {
     }
 
      /**
-     * Consult request.
+     * Gets the pix requests of the type {@code REQUEST} from the DB.
      *
-     * @param cpf .
-     * @return .
+     * @param byResolvedState .
+     * @return a {@code List} of {@code BacenPix}.
      */
     public static List<BacenPix> consultRequest() {
         try {
@@ -67,10 +66,9 @@ public class BacenDB {
     }
 
      /**
-     * Update pix request.
+     * Updates a Pix Request response state.
      *
-     * @param cpf .
-     * @return .
+     * @param pix .
      */
     @Transactional
     public static void updatePixRequestState(final BacenPixRequestUpdateDTO pix) {

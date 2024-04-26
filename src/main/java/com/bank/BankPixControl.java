@@ -11,7 +11,7 @@ public class BankPixControl {
     /**
      * Create pix request.
      *
-     * @param pixDTO .
+     * @see BankStartPixDTO 
      */
     public static void createPixRequest(final BankStartPixDTO pixDTO, final BankPixService pixService) {
         System.out.println("[INFO] (pixb.PixControl.createPixRequest) Start.");
@@ -94,9 +94,7 @@ public class BankPixControl {
     }
 
     /**
-     * Consult pix request.
-     *
-     * @param id .
+     * Consult pix requests.
      */
     public static void consultPixRequest(final BankPixService pixService) {
         System.out.println("[INFO] (pixb.PixControl.consultPixRequest) Start consult pix");
