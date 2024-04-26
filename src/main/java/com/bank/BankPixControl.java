@@ -149,19 +149,15 @@ public class BankPixControl {
         for (int i = 0; i < resolvedPixes.length; i++) {
             final BankPix pix = pixes[i];
             final BankPixRequestUpdateDTO pixUpdate = new BankPixRequestUpdateDTO(pix.endToEndId);
-            final Account a = BankDB.getAccount(pix.cpf);
+            final Account account = db.getAccount(pix.cpf);
             
             Exception ex = a.deposit(pix.value);
             
             if (ex != null) {
                 pixUpdate.resolved = BankPix.ResolvedStates.FAIL;
             } else {
-                ex = BankDB.updateAccountBalance(a);
-                if (ex != null) {
-                    pixUpdate.resolved = BankPix.ResolvedStates.FAIL;
-                } else {
-                    pixUpdate.resolved = BankPix.ResolvedStates.SUCCESS;
-                }
+                ex = db.updateAccountBalance(account);
+                pixUpdate.resolved = (ex != null) ? BankPix.ResolvedStates.FAIL : BankPix.ResolvedStates.SUCCESS;
             }
 
             resolvedPixes[i] = pixUpdate;

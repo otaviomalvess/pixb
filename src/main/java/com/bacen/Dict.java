@@ -21,7 +21,7 @@ public class Dict {
             return null;
         }
 
-        final BacenEntry[] entries = BacenDB.getEntries(keys);
+        final BacenEntry[] entries = db.getEntries(keys);
         final boolean[] existent = new boolean[keys.length];
         for (int i = 0; i < keys.length; i++) {
             existent[i] = entries[i] != null;
@@ -42,6 +42,6 @@ public class Dict {
         logger.info("(consultEntry) Start. Key: " + key);
         logger.info("(consultEntry) Get entry: " + db.getEntry(key));
         
-        return BacenDB.getEntry(key);
+        return db.getEntry(key);
     }
 }

@@ -31,7 +31,7 @@ public class SPI {
         
         logger.info("(createPixRequest) Start.");
         
-        BacenDB.createPixRequest(pix);
+        db.createPixRequest(pix);
         
         logger.info("(createPixRequest) End.");
     }
