@@ -27,13 +27,13 @@ public class BacenEntry extends PanacheEntityBase {
     public String endToEndId;
 
     @Column(name = "bank")
-    public String bank;
+    public int bank;
 
     @Column(name = "branch")
-    public String branch;
+    public int branch;
 
     @Column(name = "account")
-    public String account;
+    public int account;
 
     @Column(name = "cpf")
     public String cpf;

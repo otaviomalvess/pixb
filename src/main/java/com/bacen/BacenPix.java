@@ -25,13 +25,13 @@ public class BacenPix extends PanacheEntityBase {
     public long endToEndId;
 
     @Column(name = "bank")
-    public String bank;
+    public int bank;
 
     @Column(name = "branch")
-    public String branch;
+    public int branch;
 
     @Column(name = "account")
-    public String account;
+    public int account;
 
     @Column(name = "owner")
     public String owner;

@@ -9,11 +9,11 @@ public class BankPix {
     @JsonProperty(value = "end_to_end_id")
     public long endToEndId;
 
-    public String bank;
+    public int bank;
 
-    public String branch;
+    public int branch;
 
-    public String account;
+    public int account;
     
     public String cpf;
     
