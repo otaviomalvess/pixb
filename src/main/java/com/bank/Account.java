@@ -29,6 +29,14 @@ public class Account extends PanacheEntityBase {
     @Column(name = "balance")
     public double balance;
 
+    public void setName(String name) {
+        if (name.isBlank()) {
+            return;
+        }
+
+        this.name = name;
+    }
+
     public Exception deposit(double value) {
         if (value <= .00) {
             return new Exception("Given value has to be higher than 0.0.");
