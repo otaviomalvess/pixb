@@ -52,7 +52,7 @@ public class Account extends PanacheEntityBase {
         }
 
         if (balance - value < .0) {
-            return new Exception("Not enought balance.");
+            return new Exception("Not enough balance.");
         }
 
         balance -= value;
