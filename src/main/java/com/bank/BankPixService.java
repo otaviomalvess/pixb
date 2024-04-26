@@ -24,7 +24,11 @@ public interface BankPixService {
 
     @GET
     @Path("/bacen/spi/request")
-    public Response consultPixRequest();
+    public Response consultPixRequests();
+
+    @GET
+    @Path("/bacen/spi/request/state")
+    public Response consultUpdatedPixes();
 
     @PUT
     @Path("/bacen/spi/request")

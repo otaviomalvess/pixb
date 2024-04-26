@@ -1,8 +1,5 @@
 package com.bank;
 
-import org.eclipse.microprofile.rest.client.inject.RestClient;
-
-import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
@@ -53,12 +50,12 @@ public class BankPixResource {
     }
 
     @GET
-    @Path("/end")
-    public Response end() {
+    @Path("/consult-updated-pixes")
+    public Response consultPixUpdates() {
         try {
-            BankPixControl.consultPixRequest(pixService);
+            bankPixControl.consultUpdatedPixes();
             return Response.ok().build();
-        } catch (Exception e) {
+        } catch (final Exception e) {
             return Response.serverError().build();
         }
     }

@@ -1,5 +1,8 @@
 package com.bank;
 
+import java.util.HashMap;
+
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -19,6 +22,7 @@ public class BankPixControl {
     @Inject
     private Logger logger;
 
+    private HashMap<Long, BankPixRollbacker> rollbackers = new HashMap<Long, BankPixRollbacker>();
 
     /**
      * Create pix request.
@@ -65,13 +69,13 @@ public class BankPixControl {
 
         logger.info("(createPixRequest) Convert JSON to BankPix: OK.");
 
-        final Account account = BankDB.getAccount(pix.cpf);
+        final Account account = db.getAccount(pix.cpf);
         
         if (account == null) {
             logger.info("(createPixRequest) No account returned.");
             return;
         }
-
+        
         Exception ex = account.draw(pixDTO.value);
         
         if (ex != null) {
@@ -79,7 +83,7 @@ public class BankPixControl {
             return;
         }
 
-        ex = BankDB.updateAccountBalance(account);
+        ex = db.updateAccountBalance(account);
 
         if (ex != null) {
             logger.error("(createPixRequest) " + ex.getMessage());
@@ -87,6 +91,9 @@ public class BankPixControl {
         }
         
         pix.value = pixDTO.value;
+
+        // TODO: this returns a value if an entry with the key existed.
+        rollbackers.put(pix.endToEndId, new BankPixRollbacker(account, pix.value));
 
         try {
             resp = pixService.pixRequest(pix);
@@ -151,7 +158,7 @@ public class BankPixControl {
             final BankPixRequestUpdateDTO pixUpdate = new BankPixRequestUpdateDTO(pix.endToEndId);
             final Account account = db.getAccount(pix.cpf);
             
-            Exception ex = a.deposit(pix.value);
+            Exception ex = account.deposit(pix.value);
             
             if (ex != null) {
                 pixUpdate.resolved = BankPix.ResolvedStates.FAIL;
@@ -176,8 +183,73 @@ public class BankPixControl {
             return;
         }
         
-        System.out.println("[INFO] (pixb.PixControl.consultPixRequest) Close pix request: OK.");
-        System.out.println("[INFO] (pixb.PixControl.consultPixRequest) Pix request: OK.");
-        System.out.println("[INFO] (pixb.PixControl.consultPixRequest) SUCCESS!");
+        logger.info("(consultPixRequest) Close pix request: OK.");
+        logger.info("(consultPixRequest) Pix request: OK.");
+        logger.info("(consultPixRequest) SUCCESS!");
+    }
+
+    /**
+     * Check pix request state.
+     */
+    public void consultUpdatedPixes() {
+        logger.info("(consultUpdatedPixes) Start.");
+
+        final Response resp;
+
+        try {
+            resp = pixService.consultUpdatedPixes();
+        } catch (final Exception e) {
+            logger.error(e);
+            logger.error("(consultUpdatedPixes)");
+            return;
+        }
+
+        if (resp.getStatus() != 200) {
+            logger.error("(consultUpdatedPixes) Pix requests states.");
+            return;
+        }
+
+        if (!resp.hasEntity()) {
+            logger.info("(consultUpdatedPixes) No entity.");
+            return;
+        }
+
+        logger.info("(consultUpdatedPixes) Consult failed pixes: OK.");
+
+        final BankPix[] pixes;
+        try {
+            pixes = resp.readEntity(BankPix[].class);
+        } catch (final Exception e) {
+            logger.error(e);
+            logger.error("(consultUpdatedPixes) Convert JSON to BankPix. Entity: " + resp.getEntity());
+            return;
+        }
+
+        logger.info("(consultUpdatedPixes) Convert JSON to BankPix: OK.");
+
+        for (final BankPix pix : pixes) {
+
+            switch (pix.resolved) {
+                case BankPix.ResolvedStates.FAIL:
+                    final BankPixRollbacker rollbacker = rollbackers.get(pix.endToEndId);
+                    rollbacker.account.deposit(rollbacker.value);
+                    db.updateAccountBalance(rollbacker.account);
+                    rollbackers.remove(pix.endToEndId);
+                    break;
+                
+                case BankPix.ResolvedStates.SUCCESS:
+                    rollbackers.remove(pix.endToEndId);
+                    break;
+                
+                case BankPix.ResolvedStates.REQUEST:
+                    logger.info("(consultUpdatedPixes) Pix with Request state found in consult.");
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        logger.info("(consultUpdatedPixes) End.");
     }
 }

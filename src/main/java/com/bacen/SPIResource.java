@@ -1,6 +1,7 @@
 package com.bacen;
 
 import jakarta.inject.Inject;
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
@@ -42,7 +43,19 @@ public class SPIResource {
         try {
             spi.updatePixRequests(toUpdate);
             return Response.ok().build();
-        } catch (Exception e) {
+        } catch (final Exception e) {
+            return Response.serverError().build();
+        }
+    }
+
+    @GET
+    @Path("/state")
+    public Response consultUpdatedPixes() {
+        try {
+            return Response
+                    .ok(spi.consultUpdatedPixes())
+                    .build();
+        } catch (final Exception e) {
             return Response.serverError().build();
         }
     }
