@@ -14,7 +14,7 @@ public class BacenDB {
     @Inject
     private Logger logger;
 
-     /**
+    /**
      * Gets an array entries matching the given keys.
      *
      * @param keys an array of entry keys. 
@@ -30,7 +30,7 @@ public class BacenDB {
         return entries;
     }
 
-     /**
+    /**
      * Gets an entry matching the given key.
      *
      * @param key the entry key.
@@ -40,7 +40,7 @@ public class BacenDB {
         return BacenEntry.findById(key);
     }
 
-     /**
+    /**
      * Creates a new Pix Request.
      *
      * @param pix .
@@ -57,7 +57,7 @@ public class BacenDB {
         }
     }
 
-     /**
+    /**
      * Gets the pix requests of the type {@code REQUEST} from the DB.
      *
      * @param byResolvedState .
@@ -74,7 +74,7 @@ public class BacenDB {
         }
     }
 
-     /**
+    /**
      * Updates a Pix Request response state.
      *
      * @param pix .
