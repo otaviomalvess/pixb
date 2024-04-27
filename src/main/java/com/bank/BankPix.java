@@ -9,6 +9,9 @@ public class BankPix {
     @JsonProperty(value = "end_to_end_id")
     public long endToEndId;
 
+    @JsonProperty(value = "pkey")
+    public String key;
+
     public int bank;
 
     public int branch;
