@@ -28,6 +28,20 @@ public class BankDB {
     }
 
     /**
+     * Creates a new Pix Request.
+     *
+     * @param pix .
+     */
+    @Transactional
+    public void insertAccount(final Account account) {
+        try {
+            account.persist();
+        } catch (final Exception e) {
+            logger.error("(insertAccount) " + e);
+        }
+    }
+
+    /**
      * Updates the account balance.
      *
      * @param account the account to update.
