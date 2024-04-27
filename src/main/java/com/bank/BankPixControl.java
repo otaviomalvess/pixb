@@ -29,11 +29,9 @@ public class BankPixControl {
      *
      * @see BankStartPixDTO 
      */
-    public void createPixRequest(final BankStartPixDTO pixDTO) {
-        logger.info("(createPixRequest) Start.");
-
-        if (pixDTO.pixKey.isBlank()) {
-            logger.info("(createPixRequest) Given pix key is blank or empty.");
+    public void createPixRequests(final BankPixDTO[] pixDTOs) {
+        if (pixDTOs == null || pixDTOs.length == 0) {
+            logger.info("(createPixRequest) Given keys array is null or empty.");
             return;
         }
 
@@ -46,13 +44,15 @@ public class BankPixControl {
             return;
         }
 
-        if (resp.getStatus() != 200) {
-            logger.error("(createPixRequest) Consult key: status code " + resp.getStatus());
-            return;
-        }
-
-        if (!resp.hasEntity()) {
-            logger.error("(createPixRequest) Consult key: empty body.");
+            if (resp.getStatus() != 200) {
+                throw new Exception("Status code " + resp.getStatus());
+            }
+    
+            if (!resp.hasEntity()) {
+                throw new Exception("Empty body.");
+            }
+        } catch (final Exception e) {
+            logger.error("(createPixRequest)" + e);
             return;
         }
 
@@ -96,15 +96,13 @@ public class BankPixControl {
         rollbackers.put(pix.endToEndId, new BankPixRollbacker(account, pix.value));
 
         try {
-            resp = pixService.pixRequest(pix);
+            resp = pixService.createPixRequests(pixes);
+            
+            if (resp.getStatus() != 200) {
+                throw new Exception("Pix request.");
+            }
         } catch (final Exception e) {
-            logger.error(e);
-            logger.error("(createPixRequest) Register pix request.");
-            return;
-        }
-
-        if (resp.getStatus() != 200) {
-            logger.error("(createPixRequest) Pix request.");
+            logger.error("(createPixRequest) " + e);
             return;
         }
 
@@ -128,13 +126,15 @@ public class BankPixControl {
             return;
         }
 
-        if (resp.getStatus() != 200) {
-            logger.error("(consultPixRequest) Pix request.");
-            return;
-        }
-
-        if (!resp.hasEntity()) {
-            logger.info("(consultPixRequest) No entity.");
+            if (resp.getStatus() != 200) {
+                throw new Exception("Pix request.");
+            }
+    
+            if (!resp.hasEntity()) {
+                throw new Exception("No entity.");
+            }
+        } catch (final Exception e) {
+            logger.error("(consultPixRequest) " + e);
             return;
         }
 
@@ -155,6 +155,11 @@ public class BankPixControl {
         
         for (int i = 0; i < resolvedPixes.length; i++) {
             final BankPix pix = pixes[i];
+            if (pix == null) {
+                logger.error("(createPixRequest) Null pix.");
+                continue;
+            }
+            
             final BankPixRequestUpdateDTO pixUpdate = new BankPixRequestUpdateDTO(pix.endToEndId);
             final Account account = db.getAccount(pix.cpf);
             
@@ -172,14 +177,12 @@ public class BankPixControl {
 
         try {
             resp = pixService.closePixRequests(resolvedPixes);
-        } catch (final Exception e) {
-            logger.error(e);
-            logger.error("(consultPixRequest) Update pix request.");
-            return;
-        }
 
-        if (resp.getStatus() != 200) {
-            logger.error("(consultPixRequest) Pix request status: " + resp.getStatus());
+            if (resp.getStatus() != 200) {
+                throw new Exception("(consultPixRequest) Pix request status: " + resp.getStatus());
+            }
+        } catch (final Exception e) {
+            logger.error("(consultPixRequest) " + e);
             return;
         }
         
@@ -204,13 +207,15 @@ public class BankPixControl {
             return;
         }
 
-        if (resp.getStatus() != 200) {
-            logger.error("(consultUpdatedPixes) Pix requests states.");
-            return;
-        }
-
-        if (!resp.hasEntity()) {
-            logger.info("(consultUpdatedPixes) No entity.");
+            if (resp.getStatus() != 200) {
+                throw new Exception("(consultUpdatedPixes) Pix requests states.");
+            }
+    
+            if (!resp.hasEntity()) {
+                throw new Exception("(consultUpdatedPixes) No entity.");
+            }
+        } catch (final Exception e) {
+            logger.error("(consultUpdatedPixes) " + e);
             return;
         }
 
@@ -232,8 +237,12 @@ public class BankPixControl {
             switch (pix.resolved) {
                 case BankPix.ResolvedStates.FAIL:
                     final BankPixRollbacker rollbacker = rollbackers.get(pix.endToEndId);
-                    rollbacker.account.deposit(rollbacker.value);
-                    db.updateAccountBalance(rollbacker.account);
+                    try {
+                        rollbacker.account.deposit(rollbacker.value);
+                        db.updateAccountBalance(rollbacker.account);
+                    } catch (final Exception e) {
+                        logger.error("(consultUpdatedPixes)" + e);
+                    }
                     rollbackers.remove(pix.endToEndId);
                     break;
                 
