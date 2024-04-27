@@ -14,7 +14,7 @@ import jakarta.ws.rs.core.Response;
 
 @Consumes(MediaType.APPLICATION_JSON)
 @Path("/bank/pix")
-public class BankPixResource {
+public class PixResource {
 
     @Inject
     private BankPixControl bankPixControl;

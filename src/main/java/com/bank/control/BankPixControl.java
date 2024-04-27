@@ -11,7 +11,7 @@ import com.bank.model.Pix;
 import com.bank.model.PixDTO;
 import com.bank.model.PixRequestUpdateDTO;
 import com.bank.model.PixRollbacker;
-import com.bank.service.BankPixService;
+import com.bank.service.PixService;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -22,7 +22,7 @@ public class BankPixControl {
 
     @Inject
     @RestClient
-    private BankPixService pixService;
+    private PixService pixService;
 
     @Inject
     private BankDB db;

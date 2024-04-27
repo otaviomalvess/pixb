@@ -16,7 +16,7 @@ import jakarta.ws.rs.core.Response;
 
 @RegisterRestClient(configKey = "bank-pix-service")
 @ApplicationScoped
-public interface BankPixService {
+public interface PixService {
     
     @GET
     @Path("/bacen/dict/entry")
