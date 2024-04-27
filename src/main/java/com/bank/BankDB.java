@@ -52,7 +52,7 @@ public class BankDB {
         Exception ex = null;
 
         try {
-            account.persist();
+            Account.update("balance", account.balance);
         } catch (final Exception e) {
             logger.error("(updateAccountBalance) " + e);
             ex = new Exception("");
