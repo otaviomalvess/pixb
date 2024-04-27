@@ -4,6 +4,7 @@ import org.jboss.logging.Logger;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 @ApplicationScoped
 public class BankDB {
@@ -32,6 +33,7 @@ public class BankDB {
      * @param account the account to update.
      * @return an {@code Exception} if the operation didn't work.
      */
+    @Transactional
     public Exception updateAccountBalance(final Account account) {
         Exception ex = null;
 
