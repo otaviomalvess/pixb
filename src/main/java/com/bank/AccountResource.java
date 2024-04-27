@@ -1,5 +1,6 @@
 package com.bank;
 
+import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -14,6 +15,9 @@ import jakarta.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class AccountResource {
+
+    @Inject
+    private AccountControl accountControl;
 
     @POST
     public Response createAccount(final AccountRegisterDTO account) {
