@@ -29,9 +29,9 @@ public class BankPixResource {
 
     @POST
     @Path("/create-pix-request")
-    public Response createPixRequest(final BankStartPixDTO startPix) {
+    public Response createPixRequests(final BankPixDTO[] startPix) {
         try {
-            bankPixControl.createPixRequest(startPix);
+            bankPixControl.createPixRequests(startPix);
             return Response.ok().build();
         } catch (final Exception e) {
             return Response.serverError().build();

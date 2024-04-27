@@ -37,12 +37,12 @@ public class BankPixControl {
 
         Response resp;
         try {
-            resp = pixService.consultKey(pixDTO.pixKey);
-        } catch (final Exception e) {
-            logger.error(e);
-            logger.error("(createPixRequest) Consult key request.");
-            return;
-        }
+            final String[] keys = new String[pixDTOs.length];
+            for (int i = 0; i < keys.length; i++) {
+                keys[i] = pixDTOs[i].pixKey;
+            }
+
+            resp = pixService.getEntries(keys);
 
             if (resp.getStatus() != 200) {
                 throw new Exception("Status code " + resp.getStatus());
@@ -58,9 +58,9 @@ public class BankPixControl {
 
         logger.info("(createPixRequest) Consult key: OK.");
 
-        final BankPix pix;
+        final BankPix[] pixes;
         try {
-            pix = resp.readEntity(BankPix.class);
+            pixes = resp.readEntity(BankPix[].class);
         } catch (final Exception e) {
             logger.error(e);
             logger.error("(createPixRequest) Convert JSON to BankPix.");
@@ -69,31 +69,38 @@ public class BankPixControl {
 
         logger.info("(createPixRequest) Convert JSON to BankPix: OK.");
 
-        final Account account = db.getAccount(pix.cpf);
-        
-        if (account == null) {
-            logger.info("(createPixRequest) No account returned.");
-            return;
-        }
-        
-        Exception ex = account.draw(pixDTO.value);
-        
-        if (ex != null) {
-            logger.error("(createPixRequest + Account.draw) " + ex.getMessage());
-            return;
-        }
+        // Draw from accounts balances
+        for (final BankPix pix : pixes) {
+            if (pix == null) {
+                logger.error("(createPixRequest) Null pix.");
+                continue;
+            }
 
-        ex = db.updateAccountBalance(account);
+            final Account account = accountControl.getAccount(pix.cpf);
+            if (account == null) {
+                continue;
+            }
 
-        if (ex != null) {
-            logger.error("(createPixRequest) " + ex.getMessage());
-            return;
+            for (final BankPixDTO dto : pixDTOs) {
+                if (dto.pixKey.equals(pix.key)) {
+                    pix.value = dto.value;
+                    break;
+                }
+            }
+
+            try {
+                account.draw(pix.value);
+                db.updateAccountBalance(account);
+            } catch (final Exception e) {
+                logger.error("(createPixRequest) " + e);
+                continue;
+            }
+
+            // This returns a value if an entry with the key existed.
+            rollbackers.put(pix.endToEndId, new BankPixRollbacker(account, pix.value));
+
+            logger.info("(createPixRequest) Drew from account " + account.cpf + ". Backed up operation in rollbackers map.");
         }
-        
-        pix.value = pixDTO.value;
-
-        // TODO: this returns a value if an entry with the key existed.
-        rollbackers.put(pix.endToEndId, new BankPixRollbacker(account, pix.value));
 
         try {
             resp = pixService.createPixRequests(pixes);

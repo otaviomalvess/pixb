@@ -22,19 +22,21 @@ public class SPI {
     /**
      * Consults the DB to create a pix request.
      *
-     * @param pix the Pix (Bacen) object.
+     * @param pixes .
      */
-    public void createPixRequest(final BacenPix pix) {
-        if (pix == null) {
+    public void createRequests(final BacenPix[] pixes) {
+        if (pixes == null || pixes.length == 0) {
+            logger.info("(createPixRequest) Given Pixes array is null or empty.");
             return;
         }
         
-        pix.resolved = BacenPix.ResolvedStates.REQUEST;
-        
         logger.info("(createPixRequest) Start.");
-        
-        db.createPixRequest(pix);
-        
+
+        for (final BacenPix pix : pixes) {
+            pix.resolved = BacenPix.ResolvedStates.REQUEST;
+            db.insertPixRequest(pix);
+        }
+
         logger.info("(createPixRequest) End.");
     }
 

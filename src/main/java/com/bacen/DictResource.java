@@ -1,11 +1,13 @@
 package com.bacen;
 
+import org.jboss.resteasy.reactive.Separator;
+
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -18,12 +20,12 @@ public class DictResource {
     private Dict dict;
 
     @GET
-    @Path("/entry/{key}")
-    public Response getEntry(@PathParam("key") final String key) {
+    @Path("/entry")
+    public Response getEntries(@QueryParam("keys") @Separator(",") final String[] keys) {
         try {
             return Response
                     .ok()
-                    .entity(dict.consultEntry(key))
+                    .entity(dict.getEntries(keys))
                     .build();
         } catch (final Exception e) {
             return Response.serverError().build();

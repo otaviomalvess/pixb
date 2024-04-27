@@ -1,13 +1,14 @@
 package com.bank;
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
+import org.jboss.resteasy.reactive.Separator;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
 
 @RegisterRestClient(configKey = "bank-pix-service")
@@ -15,12 +16,12 @@ import jakarta.ws.rs.core.Response;
 public interface BankPixService {
     
     @GET
-    @Path("/bacen/dict/entry/{key}")
-    public Response consultKey(@PathParam("key") String key);
+    @Path("/bacen/dict/entry")
+    public Response getEntries(@QueryParam("keys") @Separator(",") String[] keys);
 
     @POST
     @Path("/bacen/spi/request")
-    public Response pixRequest(BankPix pix);
+    public Response createPixRequests(BankPix[] pix);
 
     @GET
     @Path("/bacen/spi/request")

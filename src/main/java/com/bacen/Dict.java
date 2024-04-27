@@ -1,8 +1,6 @@
 package com.bacen;
 
-import java.util.LinkedHashMap;
-
-import org.jboss.logging.Logger;
+import java.util.ArrayList;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -46,14 +44,11 @@ public class Dict {
      * @param keys array of {@code Entry} keys.
      * @return the returned {@code Entry}. 
      */
-    public BacenEntry consultEntry(final String key) {
-        if (key.isBlank()) {
+    public ArrayList<BacenEntry> getEntries(final String[] keys) {
+        if (keys == null || keys.length == 0) {
             return null;
         }
-
-        logger.info("(consultEntry) Start. Key: " + key);
-        logger.info("(consultEntry) Get entry: " + db.getEntry(key));
         
-        return db.getEntry(key);
+        return db.getEntries(keys);
     }
 }

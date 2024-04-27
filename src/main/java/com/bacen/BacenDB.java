@@ -20,11 +20,14 @@ public class BacenDB {
      * @param keys an array of entry keys. 
      * @return an array of {@code BacenEntry}.
      */
-    public BacenEntry[] getEntries(final String[] keys) {
-        final BacenEntry[] entries = new BacenEntry[keys.length];
+    public ArrayList<BacenEntry> getEntries(final String[] keys) {
+        final ArrayList<BacenEntry> entries = new ArrayList<>();
         
-        for (int i = 0; i < keys.length; i++) {
-            entries[i] = getEntry(keys[i]);
+        for (final String key : keys) {
+            final BacenEntry entry = getEntry(key);
+            if (entry != null) {
+                entries.add(entry);
+            }
         }
 
         return entries;

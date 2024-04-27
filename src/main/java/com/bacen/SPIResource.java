@@ -17,9 +17,9 @@ public class SPIResource {
     private SPI spi;
 
     @POST
-    public Response saveRequest(final BacenPix pix) {
+    public Response createRequest(final BacenPix[] pixes) {
         try {
-            spi.createPixRequest(pix);
+            spi.createRequests(pixes);
             return Response.ok().build();
         } catch (final Exception e) {
             return Response.serverError().build();
