@@ -38,6 +38,8 @@ public class BankPixControl {
             return;
         }
 
+        logger.info("(createPixRequest) Start.");
+
         Response resp;
         try {
             final String[] keys = new String[pixDTOs.length];
@@ -65,8 +67,7 @@ public class BankPixControl {
         try {
             pixes = resp.readEntity(BankPix[].class);
         } catch (final Exception e) {
-            logger.error(e);
-            logger.error("(createPixRequest) Convert JSON to BankPix.");
+            logger.error("(createPixRequest) " + e);
             return;
         }
 
@@ -130,11 +131,6 @@ public class BankPixControl {
 
         try {
             resp = pixService.consultPixRequests();
-        } catch (final Exception e) {
-            logger.error(e);
-            logger.error("(consultPixRequest) Consult pix request.");
-            return;
-        }
 
             if (resp.getStatus() != 200) {
                 throw new Exception("Pix request.");
@@ -154,8 +150,7 @@ public class BankPixControl {
         try {
             pixes = resp.readEntity(BankPix[].class);
         } catch (final Exception e) {
-            logger.error(e);
-            logger.error("(consultPixRequest) Convert JSON to BankPix. Entity: " + resp.getEntity());
+            logger.error("(consultPixRequest) " + e);
             return;
         }
 
@@ -214,11 +209,6 @@ public class BankPixControl {
 
         try {
             resp = pixService.consultUpdatedPixes();
-        } catch (final Exception e) {
-            logger.error(e);
-            logger.error("(consultUpdatedPixes)");
-            return;
-        }
 
             if (resp.getStatus() != 200) {
                 throw new Exception("(consultUpdatedPixes) Pix requests states.");
@@ -232,14 +222,13 @@ public class BankPixControl {
             return;
         }
 
-        logger.info("(consultUpdatedPixes) Consult failed pixes: OK.");
+        logger.info("(consultUpdatedPixes) Consult updated pixes: OK.");
 
         final BankPix[] pixes;
         try {
             pixes = resp.readEntity(BankPix[].class);
         } catch (final Exception e) {
-            logger.error(e);
-            logger.error("(consultUpdatedPixes) Convert JSON to BankPix. Entity: " + resp.getEntity());
+            logger.error("(consultUpdatedPixes) " + e);
             return;
         }
 
