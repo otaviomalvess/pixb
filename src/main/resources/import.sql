@@ -9,7 +9,7 @@ INSERT INTO directory(pkey, pkey_type, cpf, owner, creation_date, bank, branch, 
 VALUES 
         ('mail@mail.com', 1, '11111111101', 'Ana', NOW(), 000, 0, 0),
         ('+5561123456789', 2, '22222222201', 'Bob', NOW(), 000, 0, 0),
-        ('11111111101', 0, '11111111101', 'Ana', NOW(), 000, 0, 0);
+        ('22222222201', 0, '22222222201', 'Bob', NOW(), 000, 0, 0);
 
 INSERT INTO account(cpf, name, bank, branch, account, balance)
 VALUES
