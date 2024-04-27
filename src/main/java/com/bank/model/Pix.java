@@ -2,7 +2,7 @@ package com.bank.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class BankPix {
+public class Pix {
     
     public enum ResolvedStates { REQUEST, FAIL, SUCCESS }
 

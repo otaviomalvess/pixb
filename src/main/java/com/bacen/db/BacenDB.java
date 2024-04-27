@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.jboss.logging.Logger;
 
-import com.bacen.model.BacenEntry;
-import com.bacen.model.BacenPix;
-import com.bacen.model.BacenPixRequestUpdateDTO;
+import com.bacen.model.Entry;
+import com.bacen.model.Pix;
+import com.bacen.model.PixRequestUpdateDTO;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -25,11 +25,11 @@ public class BacenDB {
      * @param keys an array of entry keys.
      * @return an array of {@code BacenEntry}.
      */
-    public ArrayList<BacenEntry> getEntries(final String[] keys) {
-        final ArrayList<BacenEntry> entries = new ArrayList<>();
+    public ArrayList<Entry> getEntries(final String[] keys) {
+        final ArrayList<Entry> entries = new ArrayList<>();
         
         for (final String key : keys) {
-            final BacenEntry entry = getEntry(key);
+            final Entry entry = getEntry(key);
             if (entry != null) {
                 entries.add(entry);
             }
@@ -44,8 +44,8 @@ public class BacenDB {
      * @param key the entry key.
      * @return a {@code BacenEntry}.
      */
-    public BacenEntry getEntry(final String key) {
-        return BacenEntry.findById(key);
+    public Entry getEntry(final String key) {
+        return Entry.findById(key);
     }
 
     /**
@@ -54,7 +54,7 @@ public class BacenDB {
      * @param pix .
      */
     @Transactional
-    public void insertPixRequest(final BacenPix pix) {
+    public void insertPixRequest(final Pix pix) {
         try {
             pix.persist();
         } catch (final Exception e) {
@@ -68,10 +68,10 @@ public class BacenDB {
      * @param byResolvedState .
      * @return a {@code List} of {@code BacenPix}.
      */
-    public List<BacenPix> getRequests(final boolean byResolvedState) {
+    public List<Pix> getRequests(final boolean byResolvedState) {
         final String query = byResolvedState ? "resolved" : "NOT resolved";
         try {
-            return BacenPix.list(query, BacenPix.ResolvedStates.REQUEST);
+            return Pix.list(query, Pix.ResolvedStates.REQUEST);
         } catch (final Exception e) {
             logger.error("(getRequests) " + e);
             return null;
@@ -84,15 +84,15 @@ public class BacenDB {
      * @param pixUpdate .
      */
     @Transactional
-    public void updatePixRequestState(final BacenPixRequestUpdateDTO pixUpdate) {
+    public void updatePixRequestState(final PixRequestUpdateDTO pixUpdate) {
         try {
             // BUG: the following error happens when using the `update` method:
             //       org.hibernate.query.SemanticException: Could not interpret path expression 'end_to_end_id'
             // Pix.update("resolved = ?1 WHERE end_to_end_id = ?2", true, id);
             
-            final BacenPix pix = BacenPix.findById(pixUpdate.endToEndId);
+            final Pix pix = Pix.findById(pixUpdate.endToEndId);
             pix.resolved = pixUpdate.resolved;
-            BacenPix.persist(pix);
+            Pix.persist(pix);
         } catch (final Exception e) {
             logger.error("(updatePixRequest) " + e);
         }

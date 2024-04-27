@@ -1,7 +1,7 @@
 package com.bank.resource;
 
 import com.bank.control.BankPixControl;
-import com.bank.model.BankPixDTO;
+import com.bank.model.PixDTO;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
@@ -32,7 +32,7 @@ public class BankPixResource {
 
     @POST
     @Path("/create-pix-request")
-    public Response createPixRequests(final BankPixDTO[] startPix) {
+    public Response createPixRequests(final PixDTO[] startPix) {
         try {
             bankPixControl.createPixRequests(startPix);
             return Response.ok().build();

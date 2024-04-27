@@ -1,8 +1,8 @@
 package com.bacen.resource;
 
 import com.bacen.control.SPI;
-import com.bacen.model.BacenPix;
-import com.bacen.model.BacenPixRequestUpdateDTO;
+import com.bacen.model.Pix;
+import com.bacen.model.PixRequestUpdateDTO;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
@@ -23,7 +23,7 @@ public class SPIResource {
     private SPI spi;
 
     @POST
-    public Response createRequest(final BacenPix[] pixes) {
+    public Response createRequest(final Pix[] pixes) {
         try {
             spi.createRequests(pixes);
             return Response.ok().build();
@@ -45,7 +45,7 @@ public class SPIResource {
     }
 
     @PUT
-    public Response updateRequest(final BacenPixRequestUpdateDTO[] toUpdate) {
+    public Response updateRequest(final PixRequestUpdateDTO[] toUpdate) {
         try {
             spi.updateRequests(toUpdate);
             return Response.ok().build();

@@ -3,7 +3,7 @@ package com.bacen.control;
 import java.util.ArrayList;
 
 import com.bacen.db.BacenDB;
-import com.bacen.model.BacenEntry;
+import com.bacen.model.Entry;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -20,7 +20,7 @@ public class Dict {
      * @param keys array of {@code Entry} keys.
      * @return the returned {@code Entry}. 
      */
-    public ArrayList<BacenEntry> getEntries(final String[] keys) {
+    public ArrayList<Entry> getEntries(final String[] keys) {
         if (keys == null || keys.length == 0) {
             return null;
         }

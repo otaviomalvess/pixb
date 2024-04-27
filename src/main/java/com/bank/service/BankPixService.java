@@ -3,8 +3,8 @@ package com.bank.service;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import org.jboss.resteasy.reactive.Separator;
 
-import com.bank.model.BankPix;
-import com.bank.model.BankPixRequestUpdateDTO;
+import com.bank.model.Pix;
+import com.bank.model.PixRequestUpdateDTO;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.GET;
@@ -24,7 +24,7 @@ public interface BankPixService {
 
     @POST
     @Path("/bacen/spi/request")
-    public Response createPixRequests(BankPix[] pix);
+    public Response createPixRequests(Pix[] pix);
 
     @GET
     @Path("/bacen/spi/request")
@@ -36,5 +36,5 @@ public interface BankPixService {
 
     @PUT
     @Path("/bacen/spi/request")
-    public Response closePixRequests(BankPixRequestUpdateDTO[] resolvedPixes);
+    public Response closePixRequests(PixRequestUpdateDTO[] resolvedPixes);
 }

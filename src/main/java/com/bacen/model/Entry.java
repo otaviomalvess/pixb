@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "directory")
-public class BacenEntry extends PanacheEntityBase {
+public class Entry extends PanacheEntityBase {
     
     @Id
     @Column(name = "pkey")

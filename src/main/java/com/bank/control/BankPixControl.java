@@ -7,10 +7,10 @@ import org.jboss.logging.Logger;
 
 import com.bank.db.BankDB;
 import com.bank.model.Account;
-import com.bank.model.BankPix;
-import com.bank.model.BankPixDTO;
-import com.bank.model.BankPixRequestUpdateDTO;
-import com.bank.model.BankPixRollbacker;
+import com.bank.model.Pix;
+import com.bank.model.PixDTO;
+import com.bank.model.PixRequestUpdateDTO;
+import com.bank.model.PixRollbacker;
 import com.bank.service.BankPixService;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -33,14 +33,14 @@ public class BankPixControl {
     @Inject
     private AccountControl accountControl;
 
-    private HashMap<Long, BankPixRollbacker> rollbackers = new HashMap<>();
+    private HashMap<Long, PixRollbacker> rollbackers = new HashMap<>();
 
     /**
      * Create pix request.
      *
-     * @see BankPixDTO
+     * @see PixDTO
      */
-    public void createPixRequests(final BankPixDTO[] pixDTOs) {
+    public void createPixRequests(final PixDTO[] pixDTOs) {
         if (pixDTOs == null || pixDTOs.length == 0) {
             logger.info("(createPixRequest) Given keys array is null or empty.");
             return;
@@ -71,9 +71,9 @@ public class BankPixControl {
 
         logger.info("(createPixRequest) Consult key: OK.");
 
-        final BankPix[] pixes;
+        final Pix[] pixes;
         try {
-            pixes = resp.readEntity(BankPix[].class);
+            pixes = resp.readEntity(Pix[].class);
         } catch (final Exception e) {
             logger.error("(createPixRequest) " + e);
             return;
@@ -82,7 +82,7 @@ public class BankPixControl {
         logger.info("(createPixRequest) Convert JSON to BankPix: OK.");
 
         // Draw from accounts balances
-        for (final BankPix pix : pixes) {
+        for (final Pix pix : pixes) {
             if (pix == null) {
                 logger.error("(createPixRequest) Null pix.");
                 continue;
@@ -93,7 +93,7 @@ public class BankPixControl {
                 continue;
             }
 
-            for (final BankPixDTO dto : pixDTOs) {
+            for (final PixDTO dto : pixDTOs) {
                 if (dto.pixKey.equals(pix.key)) {
                     pix.value = dto.value;
                     break;
@@ -109,7 +109,7 @@ public class BankPixControl {
             }
 
             // This returns a value if an entry with the key existed.
-            rollbackers.put(pix.endToEndId, new BankPixRollbacker(account, pix.value));
+            rollbackers.put(pix.endToEndId, new PixRollbacker(account, pix.value));
 
             logger.info("(createPixRequest) Drew from account " + account.cpf + ". Backed up operation in rollbackers map.");
         }
@@ -154,9 +154,9 @@ public class BankPixControl {
 
         logger.info("(consultPixRequest) Consult pix request: OK.");
 
-        final BankPix[] pixes;
+        final Pix[] pixes;
         try {
-            pixes = resp.readEntity(BankPix[].class);
+            pixes = resp.readEntity(Pix[].class);
         } catch (final Exception e) {
             logger.error("(consultPixRequest) " + e);
             return;
@@ -164,16 +164,16 @@ public class BankPixControl {
 
         logger.info("(consultPixRequest) Convert JSON to BankPix: OK.");
 
-        final BankPixRequestUpdateDTO[] resolvedPixes = new BankPixRequestUpdateDTO[pixes.length];
+        final PixRequestUpdateDTO[] resolvedPixes = new PixRequestUpdateDTO[pixes.length];
         
         for (int i = 0; i < resolvedPixes.length; i++) {
-            final BankPix pix = pixes[i];
+            final Pix pix = pixes[i];
             if (pix == null) {
                 logger.error("(createPixRequest) Null pix.");
                 continue;
             }
             
-            final BankPixRequestUpdateDTO pixUpdate = new BankPixRequestUpdateDTO(pix.endToEndId);
+            final PixRequestUpdateDTO pixUpdate = new PixRequestUpdateDTO(pix.endToEndId);
             resolvedPixes[i] = pixUpdate;
 
             final Account account = accountControl.getAccount(pix.cpf);
@@ -185,9 +185,9 @@ public class BankPixControl {
             try {
                 account.deposit(pix.value);
                 db.updateAccountBalance(account);
-                pixUpdate.resolved = BankPix.ResolvedStates.SUCCESS;
+                pixUpdate.resolved = Pix.ResolvedStates.SUCCESS;
             } catch (final Exception e) {
-                pixUpdate.resolved = BankPix.ResolvedStates.FAIL;
+                pixUpdate.resolved = Pix.ResolvedStates.FAIL;
             }
         }
 
@@ -232,9 +232,9 @@ public class BankPixControl {
 
         logger.info("(consultUpdatedPixes) Consult updated pixes: OK.");
 
-        final BankPix[] pixes;
+        final Pix[] pixes;
         try {
-            pixes = resp.readEntity(BankPix[].class);
+            pixes = resp.readEntity(Pix[].class);
         } catch (final Exception e) {
             logger.error("(consultUpdatedPixes) " + e);
             return;
@@ -242,11 +242,11 @@ public class BankPixControl {
 
         logger.info("(consultUpdatedPixes) Convert JSON to BankPix: OK.");
 
-        for (final BankPix pix : pixes) {
+        for (final Pix pix : pixes) {
 
             switch (pix.resolved) {
-                case BankPix.ResolvedStates.FAIL:
-                    final BankPixRollbacker rollbacker = rollbackers.get(pix.endToEndId);
+                case Pix.ResolvedStates.FAIL:
+                    final PixRollbacker rollbacker = rollbackers.get(pix.endToEndId);
                     try {
                         rollbacker.account.deposit(rollbacker.value);
                         db.updateAccountBalance(rollbacker.account);
@@ -256,11 +256,11 @@ public class BankPixControl {
                     rollbackers.remove(pix.endToEndId);
                     break;
                 
-                case BankPix.ResolvedStates.SUCCESS:
+                case Pix.ResolvedStates.SUCCESS:
                     rollbackers.remove(pix.endToEndId);
                     break;
                 
-                case BankPix.ResolvedStates.REQUEST:
+                case Pix.ResolvedStates.REQUEST:
                     logger.info("(consultUpdatedPixes) Pix with Request state found in consult.");
                     break;
             }

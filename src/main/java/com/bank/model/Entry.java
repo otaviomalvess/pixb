@@ -12,7 +12,7 @@ import jakarta.persistence.Id;
     in JSON format. This class is here to simulate that.*/
 
 @Entity
-public class BankEntry {
+public class Entry {
     
     @Id
     @JsonProperty(value = "pkey")

@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "pix_request")
-public class BacenPix extends PanacheEntityBase {
+public class Pix extends PanacheEntityBase {
     
     public enum ResolvedStates { REQUEST, FAIL, SUCCESS }
 

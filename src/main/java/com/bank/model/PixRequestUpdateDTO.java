@@ -2,13 +2,13 @@ package com.bank.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class BankPixRequestUpdateDTO {
+public class PixRequestUpdateDTO {
     
     @JsonProperty(value = "end_to_end_id")
     public long endToEndId;
-    public BankPix.ResolvedStates resolved;
+    public Pix.ResolvedStates resolved;
 
-    public BankPixRequestUpdateDTO(long endToEndId) {
+    public PixRequestUpdateDTO(long endToEndId) {
         this.endToEndId = endToEndId;
     }
 }

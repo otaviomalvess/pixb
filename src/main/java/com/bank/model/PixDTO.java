@@ -1,6 +1,6 @@
 package com.bank.model;
 
-public class BankPixDTO {
+public class PixDTO {
     
     public String pixKey;
     public double value;

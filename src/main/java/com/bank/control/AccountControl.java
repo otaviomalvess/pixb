@@ -7,7 +7,7 @@ import org.jboss.logging.Logger;
 import com.bank.db.BankDB;
 import com.bank.model.Account;
 import com.bank.model.AccountRegisterDTO;
-import com.bank.model.BankPix;
+import com.bank.model.Pix;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -69,14 +69,14 @@ public class AccountControl {
      * @param pixes
      * @return Account[]
      */
-    public Account[] getAccounts(final BankPix[] pixes) {
+    public Account[] getAccounts(final Pix[] pixes) {
         if (pixes == null || pixes.length == 0) {
             logger.error("(getAccounts) Given CPFs array is null or empty.");
             return null;
         }
 
         final ArrayList<Account> accounts = new ArrayList<>();
-        for (final BankPix pix : pixes) {
+        for (final Pix pix : pixes) {
             accounts.add(getAccount(pix.cpf));
         }
 

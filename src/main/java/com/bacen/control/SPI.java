@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import org.jboss.logging.Logger;
 
 import com.bacen.db.BacenDB;
-import com.bacen.model.BacenPix;
-import com.bacen.model.BacenPixRequestUpdateDTO;
+import com.bacen.model.Pix;
+import com.bacen.model.PixRequestUpdateDTO;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -21,14 +21,14 @@ public class SPI {
     @Inject
     private Logger logger;
 
-    private ArrayList<BacenPixRequestUpdateDTO> updatedPixes = new ArrayList<BacenPixRequestUpdateDTO>();
+    private ArrayList<PixRequestUpdateDTO> updatedPixes = new ArrayList<PixRequestUpdateDTO>();
 
     /**
      * Consults the DB to create a pix request.
      *
      * @param pixes .
      */
-    public void createRequests(final BacenPix[] pixes) {
+    public void createRequests(final Pix[] pixes) {
         if (pixes == null || pixes.length == 0) {
             logger.info("(createPixRequest) Given Pixes array is null or empty.");
             return;
@@ -36,8 +36,8 @@ public class SPI {
         
         logger.info("(createPixRequest) Start.");
 
-        for (final BacenPix pix : pixes) {
-            pix.resolved = BacenPix.ResolvedStates.REQUEST;
+        for (final Pix pix : pixes) {
+            pix.resolved = Pix.ResolvedStates.REQUEST;
             db.insertPixRequest(pix);
         }
 
@@ -49,7 +49,7 @@ public class SPI {
      *
      * @return a {@code List} of {@code BacenPix} from the DB.
      */
-    public List<BacenPix> getRequests(final boolean byResolvedState) {
+    public List<Pix> getRequests(final boolean byResolvedState) {
         return db.getRequests(byResolvedState);
     }
 
@@ -58,8 +58,8 @@ public class SPI {
      *
      * @return a {@code List} of {@code BacenPix}.
      */
-    public ArrayList<BacenPixRequestUpdateDTO> consultUpdatedPixes() {
-        final ArrayList<BacenPixRequestUpdateDTO> temp = updatedPixes;
+    public ArrayList<PixRequestUpdateDTO> consultUpdatedPixes() {
+        final ArrayList<PixRequestUpdateDTO> temp = updatedPixes;
         updatedPixes.clear();
         return temp;
     }
@@ -69,7 +69,7 @@ public class SPI {
      *
      * @param toUpdate an array of {@code BacenPixRequestUpdateDTO}.
      */
-    public void updateRequests(final BacenPixRequestUpdateDTO[] toUpdate) {
+    public void updateRequests(final PixRequestUpdateDTO[] toUpdate) {
         if (toUpdate == null) {
             logger.error("(updatePixRequests) Given end-to-end list is null.");
             return;
@@ -81,8 +81,8 @@ public class SPI {
             return;
         }
 
-        for (final BacenPixRequestUpdateDTO pix : toUpdate) {
-            if (pix.resolved == BacenPix.ResolvedStates.REQUEST) {
+        for (final PixRequestUpdateDTO pix : toUpdate) {
+            if (pix.resolved == Pix.ResolvedStates.REQUEST) {
                 // TODO: figure out what to do here.
                 logger.error("(updatePixRequests) Pix " + pix.endToEndId + " with Request resolved state. Skip.");
                 continue;
