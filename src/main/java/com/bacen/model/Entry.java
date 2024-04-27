@@ -10,7 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-@Entity
+@Entity(name = "bacen.Entry")
 @Table(name = "directory")
 public class Entry extends PanacheEntityBase {
     

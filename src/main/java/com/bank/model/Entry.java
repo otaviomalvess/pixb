@@ -11,7 +11,7 @@ import jakarta.persistence.Id;
     In a real world scenario, Bacen and Pixb would be 2 completely different systems, which would transfer data
     in JSON format. This class is here to simulate that.*/
 
-@Entity
+@Entity(name = "bank.Entry")
 public class Entry {
     
     @Id
