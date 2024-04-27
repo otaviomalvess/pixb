@@ -255,9 +255,6 @@ public class BankPixControl {
                 case BankPix.ResolvedStates.REQUEST:
                     logger.info("(consultUpdatedPixes) Pix with Request state found in consult.");
                     break;
-
-                default:
-                    break;
             }
         }
 
