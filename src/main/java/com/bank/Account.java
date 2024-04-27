@@ -29,6 +29,17 @@ public class Account extends PanacheEntityBase {
     @Column(name = "balance")
     public double balance;
 
+    public Account () {}
+
+    public Account(final AccountRegisterDTO accountDTO) {
+        this(accountDTO.name, accountDTO.cpf);
+    }
+
+    public Account(final String name, final String cpf) {
+        setName(name);
+        setCPF(cpf);
+    }
+
     /**
      * Set the account name.
      *
