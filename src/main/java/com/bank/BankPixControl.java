@@ -22,7 +22,10 @@ public class BankPixControl {
     @Inject
     private Logger logger;
 
-    private HashMap<Long, BankPixRollbacker> rollbackers = new HashMap<Long, BankPixRollbacker>();
+    @Inject
+    private AccountControl accountControl;
+
+    private HashMap<Long, BankPixRollbacker> rollbackers = new HashMap<>();
 
     /**
      * Create pix request.
