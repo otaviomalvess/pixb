@@ -34,10 +34,11 @@ public class Account extends PanacheEntityBase {
      *
      * @param name the name of the account.
      */
-    public void setName(String name) {
-        if (name.isBlank()) {
-            return;
-        }
+    public void setName(final String name) {
+        if (name == null)
+            throw new NullPointerException("Name cannot be null");
+        if (name.isBlank())
+            throw new IllegalArgumentException("Name cannot be blank");
 
         this.name = name;
     }
@@ -65,13 +66,12 @@ public class Account extends PanacheEntityBase {
      *
      * @param value the amount to add.
      */
-    public Exception deposit(double value) {
+    public void deposit(final double value) throws Exception {
         if (value <= .00) {
-            return new Exception("Given value has to be higher than 0.0.");
+            throw new Exception("Given value has to be higher than 0.0");
         }
 
         balance += value;
-        return null;
     }
 
     /**
@@ -80,16 +80,15 @@ public class Account extends PanacheEntityBase {
      * @param value the amount to draw.
      * @return an {@code Exception} if the given value is smaller than 0.0 or if the account hasn't enough balance.
      */
-    public Exception draw(double value) {
+    public void draw(final double value) throws Exception {
         if (value <= .0) {
-            return new Exception("Given value has to be higher than 0.0.");
+            throw new Exception("Given value has to be higher than 0.0");
         }
 
         if (balance - value < .0) {
-            return new Exception("Not enough balance.");
+            throw new Exception("Not enough balance");
         }
 
         balance -= value;
-        return null;
     }
 }
