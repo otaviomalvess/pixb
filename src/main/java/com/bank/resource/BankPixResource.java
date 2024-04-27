@@ -1,4 +1,7 @@
-package com.bank;
+package com.bank.resource;
+
+import com.bank.control.BankPixControl;
+import com.bank.model.BankPixDTO;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;

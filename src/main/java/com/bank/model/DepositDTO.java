@@ -1,4 +1,4 @@
-package com.bank;
+package com.bank.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

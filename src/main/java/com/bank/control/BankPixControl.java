@@ -1,9 +1,17 @@
-package com.bank;
+package com.bank.control;
 
 import java.util.HashMap;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
+
+import com.bank.db.BankDB;
+import com.bank.model.Account;
+import com.bank.model.BankPix;
+import com.bank.model.BankPixDTO;
+import com.bank.model.BankPixRequestUpdateDTO;
+import com.bank.model.BankPixRollbacker;
+import com.bank.service.BankPixService;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

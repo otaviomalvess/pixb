@@ -1,6 +1,8 @@
-package com.bacen;
+package com.bacen.resource;
 
 import org.jboss.resteasy.reactive.Separator;
+
+import com.bacen.control.Dict;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;

@@ -1,4 +1,8 @@
-package com.bacen;
+package com.bacen.resource;
+
+import com.bacen.control.SPI;
+import com.bacen.model.BacenPix;
+import com.bacen.model.BacenPixRequestUpdateDTO;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;

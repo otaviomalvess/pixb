@@ -1,4 +1,4 @@
-package com.bacen;
+package com.bacen.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -16,7 +16,7 @@ import jakarta.persistence.Table;
 @Table(name = "pix_request")
 public class BacenPix extends PanacheEntityBase {
     
-    enum ResolvedStates { REQUEST, FAIL, SUCCESS }
+    public enum ResolvedStates { REQUEST, FAIL, SUCCESS }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

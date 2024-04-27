@@ -1,4 +1,4 @@
-package com.bacen;
+package com.bacen.model;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Column;

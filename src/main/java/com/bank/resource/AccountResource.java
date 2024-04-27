@@ -1,4 +1,8 @@
-package com.bank;
+package com.bank.resource;
+
+import com.bank.control.AccountControl;
+import com.bank.model.AccountRegisterDTO;
+import com.bank.model.DepositDTO;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;

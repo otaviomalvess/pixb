@@ -1,4 +1,4 @@
-package com.bacen;
+package com.bacen.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

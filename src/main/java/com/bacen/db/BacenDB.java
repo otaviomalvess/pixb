@@ -1,9 +1,13 @@
-package com.bacen;
+package com.bacen.db;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.logging.Logger;
+
+import com.bacen.model.BacenEntry;
+import com.bacen.model.BacenPix;
+import com.bacen.model.BacenPixRequestUpdateDTO;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

@@ -1,7 +1,10 @@
-package com.bank;
+package com.bank.service;
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import org.jboss.resteasy.reactive.Separator;
+
+import com.bank.model.BankPix;
+import com.bank.model.BankPixRequestUpdateDTO;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.GET;

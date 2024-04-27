@@ -1,6 +1,8 @@
-package com.bank;
+package com.bank.db;
 
 import org.jboss.logging.Logger;
+
+import com.bank.model.Account;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

@@ -1,10 +1,10 @@
-package com.bank;
+package com.bank.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BankPix {
     
-    enum ResolvedStates { REQUEST, FAIL, SUCCESS }
+    public enum ResolvedStates { REQUEST, FAIL, SUCCESS }
 
     @JsonProperty(value = "end_to_end_id")
     public long endToEndId;

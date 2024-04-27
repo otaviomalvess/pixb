@@ -1,8 +1,13 @@
-package com.bank;
+package com.bank.control;
 
 import java.util.ArrayList;
 
 import org.jboss.logging.Logger;
+
+import com.bank.db.BankDB;
+import com.bank.model.Account;
+import com.bank.model.AccountRegisterDTO;
+import com.bank.model.BankPix;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

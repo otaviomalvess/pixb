@@ -1,6 +1,9 @@
-package com.bacen;
+package com.bacen.control;
 
 import java.util.ArrayList;
+
+import com.bacen.db.BacenDB;
+import com.bacen.model.BacenEntry;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
