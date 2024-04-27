@@ -43,6 +43,24 @@ public class Account extends PanacheEntityBase {
     }
 
     /**
+     * Set the account cpf.
+     *
+     * @param cpf the cpf of the account.
+     * @throws NullPointerException
+     * @throws IllegalArgumentException
+     */
+    public void setCPF(final String cpf) {
+        if (cpf == null)
+            throw new NullPointerException("CPF cannot be null");
+        if (cpf.isBlank())
+            throw new IllegalArgumentException("CPF cannot be blank");
+        if (cpf.length() != 11)
+            throw new IllegalArgumentException("CPF length cannot be different of 11");
+
+        this.cpf = cpf;
+    }
+
+    /**
      * Deposits the given amount to the balance.
      *
      * @param value the amount to add.
