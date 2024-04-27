@@ -30,7 +30,7 @@ public class BankPixControl {
     /**
      * Create pix request.
      *
-     * @see BankStartPixDTO 
+     * @see BankPixDTO
      */
     public void createPixRequests(final BankPixDTO[] pixDTOs) {
         if (pixDTOs == null || pixDTOs.length == 0) {

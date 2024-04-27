@@ -41,7 +41,7 @@ public class SPI {
     }
 
     /**
-     * Consult request.
+     * Get pix requests.
      *
      * @return a {@code List} of {@code BacenPix} from the DB.
      */

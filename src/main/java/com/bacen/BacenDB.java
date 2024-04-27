@@ -18,7 +18,7 @@ public class BacenDB {
     /**
      * Gets an array entries matching the given keys.
      *
-     * @param keys an array of entry keys. 
+     * @param keys an array of entry keys.
      * @return an array of {@code BacenEntry}.
      */
     public ArrayList<BacenEntry> getEntries(final String[] keys) {
@@ -77,7 +77,7 @@ public class BacenDB {
     /**
      * Updates a Pix Request response state.
      *
-     * @param pix .
+     * @param pixUpdate .
      */
     @Transactional
     public void updatePixRequestState(final BacenPixRequestUpdateDTO pixUpdate) {
