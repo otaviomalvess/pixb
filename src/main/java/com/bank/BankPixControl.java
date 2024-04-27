@@ -168,18 +168,21 @@ public class BankPixControl {
             }
             
             final BankPixRequestUpdateDTO pixUpdate = new BankPixRequestUpdateDTO(pix.endToEndId);
-            final Account account = db.getAccount(pix.cpf);
-            
-            Exception ex = account.deposit(pix.value);
-            
-            if (ex != null) {
-                pixUpdate.resolved = BankPix.ResolvedStates.FAIL;
-            } else {
-                ex = db.updateAccountBalance(account);
-                pixUpdate.resolved = (ex != null) ? BankPix.ResolvedStates.FAIL : BankPix.ResolvedStates.SUCCESS;
+            resolvedPixes[i] = pixUpdate;
+
+            final Account account = accountControl.getAccount(pix.cpf);
+
+            if (account == null) {
+                continue;
             }
 
-            resolvedPixes[i] = pixUpdate;
+            try {
+                account.deposit(pix.value);
+                db.updateAccountBalance(account);
+                pixUpdate.resolved = BankPix.ResolvedStates.SUCCESS;
+            } catch (final Exception e) {
+                pixUpdate.resolved = BankPix.ResolvedStates.FAIL;
+            }
         }
 
         try {
