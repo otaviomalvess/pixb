@@ -49,11 +49,9 @@ public class BacenDB {
      * @param pix .
      */
     @Transactional
-    public void createPixRequest(final BacenPix pix) {
+    public void insertPixRequest(final BacenPix pix) {
         try {
             pix.persist();
-            // final Session s = PanacheEntityBase.getEntityManager().unwrap(Session.class);
-            // s.merge(p);
         } catch (final Exception e) {
             logger.error(e);
             logger.error("(createPixRequest) Saving pix request.");
@@ -83,15 +81,15 @@ public class BacenDB {
      * @param pix .
      */
     @Transactional
-    public void updatePixRequestState(final BacenPixRequestUpdateDTO pix) {
+    public void updatePixRequestState(final BacenPixRequestUpdateDTO pixUpdate) {
         try {
-            // BUG: this following error happens when using the `update` method:
+            // BUG: the following error happens when using the `update` method:
             //       org.hibernate.query.SemanticException: Could not interpret path expression 'end_to_end_id'
             // Pix.update("resolved = ?1 WHERE end_to_end_id = ?2", true, id);
             
-            final BacenPix p = BacenPix.findById(pix.endToEndId);
-            p.resolved = pix.resolved;
-            BacenPix.persist(p);
+            final BacenPix pix = BacenPix.findById(pixUpdate.endToEndId);
+            pix.resolved = pixUpdate.resolved;
+            BacenPix.persist(pix);
         } catch (final Exception e) {
             logger.error(e);
             logger.error("(updatePixRequest) Update pix request. Id: " + pix.endToEndId);

@@ -27,11 +27,11 @@ public class SPIResource {
     }
     
     @GET
-    public Response consultRequest() {
+    public Response consultRequests() {
         try {
             return Response
                     .ok()
-                    .entity(spi.getPixRequests(true))
+                    .entity(spi.getRequests(true))
                     .build();
         } catch (final Exception e) {
             return Response.serverError().build();
@@ -41,7 +41,7 @@ public class SPIResource {
     @PUT
     public Response updateRequest(final BacenPixRequestUpdateDTO[] toUpdate) {
         try {
-            spi.updatePixRequests(toUpdate);
+            spi.updateRequests(toUpdate);
             return Response.ok().build();
         } catch (final Exception e) {
             return Response.serverError().build();

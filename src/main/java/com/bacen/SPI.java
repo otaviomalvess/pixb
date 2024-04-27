@@ -45,7 +45,7 @@ public class SPI {
      *
      * @return a {@code List} of {@code BacenPix} from the DB.
      */
-    public List<BacenPix> getPixRequests(final boolean byResolvedState) {
+    public List<BacenPix> getRequests(final boolean byResolvedState) {
         return db.getRequests(byResolvedState);
     }
 
@@ -65,7 +65,7 @@ public class SPI {
      *
      * @param toUpdate an array of {@code BacenPixRequestUpdateDTO}.
      */
-    public void updatePixRequests(final BacenPixRequestUpdateDTO[] toUpdate) {
+    public void updateRequests(final BacenPixRequestUpdateDTO[] toUpdate) {
         if (toUpdate == null) {
             logger.error("(updatePixRequests) Given end-to-end list is null.");
             return;
