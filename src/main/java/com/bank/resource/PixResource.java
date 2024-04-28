@@ -1,6 +1,6 @@
 package com.bank.resource;
 
-import com.bank.control.BankPixControl;
+import com.bank.control.PixControl;
 import com.bank.model.PixDTO;
 
 import jakarta.inject.Inject;
@@ -17,7 +17,7 @@ import jakarta.ws.rs.core.Response;
 public class PixResource {
 
     @Inject
-    private BankPixControl bankPixControl;
+    private PixControl bankPixControl;
 
     @GET
     @Path("/{key}")

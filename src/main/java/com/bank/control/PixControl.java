@@ -18,7 +18,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 
 @ApplicationScoped
-public class BankPixControl {
+public class PixControl {
 
     @Inject
     @RestClient
