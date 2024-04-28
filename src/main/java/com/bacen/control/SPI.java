@@ -12,6 +12,9 @@ import com.bacen.model.PixRequestUpdateDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+/**
+ * SPI is a class managing pix requests and its states.
+ */
 @ApplicationScoped
 public class SPI {
 
@@ -24,9 +27,10 @@ public class SPI {
     private ArrayList<PixRequestUpdateDTO> updatedPixes = new ArrayList<PixRequestUpdateDTO>();
 
     /**
-     * Consults the DB to create a pix request.
+     * Creates new pix requests.
      *
-     * @param pixes .
+     * @param pixes A list of pix.
+     * @see Pix
      */
     public void createRequests(final Pix[] pixes) {
         if (pixes == null || pixes.length == 0) {
@@ -45,18 +49,21 @@ public class SPI {
     }
 
     /**
-     * Get pix requests.
+     * Returns a list of pix requests.
      *
-     * @return a {@code List} of {@code BacenPix} from the DB.
+     * @param byResolvedState A boolean to specify the search method.
+     * @return The list of pix requests.
+     * @see Pix
      */
     public List<Pix> getRequests(final boolean byResolvedState) {
         return db.getRequests(byResolvedState);
     }
 
     /**
-     * Get failed pixes.
+     * Returns a list of updated pix requests.
      *
-     * @return a {@code List} of {@code BacenPix}.
+     * @return The list of updated pix requests.
+     * @see PixRequestUpdateDTO
      */
     public ArrayList<PixRequestUpdateDTO> consultUpdatedPixes() {
         final ArrayList<PixRequestUpdateDTO> temp = updatedPixes;
@@ -65,9 +72,10 @@ public class SPI {
     }
 
     /**
-     * Closes the given Pix Requests.
+     * Updates the resolved state of the requested pix requests.
      *
-     * @param toUpdate an array of {@code BacenPixRequestUpdateDTO}.
+     * @param toUpdate A list of pix requests to update.
+     * @see PixRequestUpdateDTO
      */
     public void updateRequests(final PixRequestUpdateDTO[] toUpdate) {
         if (toUpdate == null) {

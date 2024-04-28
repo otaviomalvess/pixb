@@ -8,6 +8,9 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
+/**
+ * BankDB is a class handling any database operations related to the bank.
+ */
 @ApplicationScoped
 public class BankDB {
 

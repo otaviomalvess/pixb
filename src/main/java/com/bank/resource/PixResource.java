@@ -12,6 +12,9 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+/**
+ * PixResource is a class containing all pix related endpoints.
+ */
 @Consumes(MediaType.APPLICATION_JSON)
 @Path("/bank/pix")
 public class PixResource {

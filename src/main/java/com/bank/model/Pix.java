@@ -2,6 +2,9 @@ package com.bank.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Pix is a class containing the details and state of a pix transfer request.
+ */
 public class Pix {
     
     public enum ResolvedStates { REQUEST, FAIL, SUCCESS }

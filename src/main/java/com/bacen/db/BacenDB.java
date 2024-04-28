@@ -13,6 +13,9 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
+/**
+ * BacenDB is a class handling any database operations related to bacen.
+ */
 @ApplicationScoped
 public class BacenDB {
 

@@ -10,6 +10,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+/**
+ * Entry is a class containing the details of an user account associated to a unique key.
+ */
 @Entity(name = "bacen.Entry")
 @Table(name = "directory")
 public class Entry extends PanacheEntityBase {

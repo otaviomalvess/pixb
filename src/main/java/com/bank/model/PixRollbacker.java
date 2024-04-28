@@ -1,5 +1,8 @@
 package com.bank.model;
 
+/**
+ * PixRollbacker is a class containing the details of a drawn operation associated to an account.
+ */
 public class PixRollbacker {
     
     public Account account;

@@ -12,6 +12,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+/**
+ * Pix is a class containing the details and state of a pix transfer request.
+ */
 @Entity(name = "bacen.Pix")
 @Table(name = "pix_request")
 public class Pix extends PanacheEntityBase {

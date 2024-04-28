@@ -1,17 +1,17 @@
 package com.bank.control;
 
-import java.util.ArrayList;
-
 import org.jboss.logging.Logger;
 
 import com.bank.db.BankDB;
 import com.bank.model.Account;
 import com.bank.model.AccountRegisterDTO;
-import com.bank.model.Pix;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+/**
+ * AccountControl is a class managing any account related processes.
+ */
 @ApplicationScoped
 public class AccountControl {
     
@@ -22,9 +22,10 @@ public class AccountControl {
     private Logger logger;
 
     /**
-     * Creates a new accounts.
+     * Create a new account.
      * 
-     * @param accountDTO
+     * @param accountDTO The account DTO object
+     * @see AccountRegisterDTO
      */
     public void createAccount(final AccountRegisterDTO accountDTO) {
         final Account account = new Account(accountDTO);
@@ -32,10 +33,10 @@ public class AccountControl {
     }
 
     /**
-     * Deposit to.
+     * Make a deposit to an account.
      * 
-     * @param cpf
-     * @param value
+     * @param cpf The CPF associated to the account
+     * @param value The deposit value
      */
     public void depositTo(final String cpf, final double value) {
         final Account account = getAccount(cpf);
@@ -53,8 +54,11 @@ public class AccountControl {
     }
     
     /**
-     * @param cpf
-     * @return Account
+     * Get an account.
+     * 
+     * @param cpf The CPF associated to the account
+     * @return The account
+     * @see Account
      */
     public Account getAccount(final String cpf) {
         if (cpf.isBlank()) {
@@ -63,23 +67,5 @@ public class AccountControl {
         }
 
         return db.getAccount(cpf);
-    }
-
-    /**
-     * @param pixes
-     * @return Account[]
-     */
-    public Account[] getAccounts(final Pix[] pixes) {
-        if (pixes == null || pixes.length == 0) {
-            logger.error("(getAccounts) Given CPFs array is null or empty.");
-            return null;
-        }
-
-        final ArrayList<Account> accounts = new ArrayList<>();
-        for (final Pix pix : pixes) {
-            accounts.add(getAccount(pix.cpf));
-        }
-
-        return accounts.toArray(new Account[accounts.size()]);
     }
 }

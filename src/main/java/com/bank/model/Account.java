@@ -41,9 +41,11 @@ public class Account extends PanacheEntityBase {
     }
 
     /**
-     * Set the account name.
+     * Sets the user name.
      *
-     * @param name the name of the account.
+     * @param name The name of the user.
+     * @throws NullPointerException If the given name is null.
+     * @throws IllegalArgumentException If the given name is blank.
      */
     public void setName(final String name) {
         if (name == null)
@@ -55,11 +57,12 @@ public class Account extends PanacheEntityBase {
     }
 
     /**
-     * Set the account cpf.
+     * Sets the account CPF.
      *
-     * @param cpf the cpf of the account.
-     * @throws NullPointerException
-     * @throws IllegalArgumentException
+     * @param cpf The account CPF.
+     * @throws NullPointerException If the given CPF is null.
+     * @throws IllegalArgumentException If the given CPF is blank.
+     * @throws IllegalArgumentException If the given CPF length is not equal to 11.
      */
     public void setCPF(final String cpf) {
         if (cpf == null)
@@ -73,9 +76,10 @@ public class Account extends PanacheEntityBase {
     }
 
     /**
-     * Deposits the given amount to the balance.
+     * Deposits the given amount to the account.
      *
-     * @param value the amount to add.
+     * @param value The amount to deposit.
+     * @throws Exception If the given value is not greater than .0d.
      */
     public void deposit(final double value) throws Exception {
         if (value <= .00) {
@@ -86,10 +90,11 @@ public class Account extends PanacheEntityBase {
     }
 
     /**
-     * Draws the requested amount from the balance.
+     * Draws the given amount from the account.
      *
-     * @param value the amount to draw.
-     * @return an {@code Exception} if the given value is smaller than 0.0 or if the account hasn't enough balance.
+     * @param value The amount to draw.
+     * @throws Exception If the given value is not greater than .0d.
+     * @throws Exception If the account doesn't have enough balance.
      */
     public void draw(final double value) throws Exception {
         if (value <= .0) {

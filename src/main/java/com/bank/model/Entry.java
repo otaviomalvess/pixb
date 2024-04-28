@@ -7,10 +7,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
-/* This is a duplicate class from com.bacen.Entry.
-    In a real world scenario, Bacen and Pixb would be 2 completely different systems, which would transfer data
-    in JSON format. This class is here to simulate that.*/
-
+/**
+ * Entry is a class containing the details of an user account associated to a unique key.
+ */
 @Entity(name = "bank.Entry")
 public class Entry {
     

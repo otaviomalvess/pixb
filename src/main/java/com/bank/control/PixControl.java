@@ -17,6 +17,9 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 
+/**
+ * PixControl is a class to handle any pix related processes.
+ */
 @ApplicationScoped
 public class PixControl {
 
@@ -36,8 +39,12 @@ public class PixControl {
     private HashMap<Long, PixRollbacker> rollbackers = new HashMap<>();
 
     /**
-     * Create pix request.
-     *
+     * Draws from the accounts balances and requests the creation of new Pix Requests.
+     * The requests are only built with the returned consulted entries.
+     * <p>
+     * All successful account balances drawn operation is saved for rollbacking purposes.
+     * 
+     * @param pixDTOs The pix DTO object
      * @see PixDTO
      */
     public void createPixRequests(final PixDTO[] pixDTOs) {
@@ -130,7 +137,8 @@ public class PixControl {
     }
 
     /**
-     * Consult pix requests.
+     * Consults existent Pix Requests and makes a deposit to the associated accounts.
+     * An update is sent informing which deposits did or not work. 
      */
     public void consultPixRequests() {
         logger.info("(consultPixRequest) Start.");
@@ -208,7 +216,7 @@ public class PixControl {
     }
 
     /**
-     * Check pix request state.
+     * Consults updated Pix Requests and rollbacks the operation on those which failed.
      */
     public void consultUpdatedPixes() {
         logger.info("(consultUpdatedPixes) Start.");

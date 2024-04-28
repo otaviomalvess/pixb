@@ -8,6 +8,9 @@ import com.bacen.model.Entry;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+/**
+ * Dict is a class managing pix entries.
+ */
 @ApplicationScoped
 public class Dict {
 
@@ -15,10 +18,11 @@ public class Dict {
     private BacenDB db;
 
     /**
-     * Checks if there are any {@code Entry} matching the given keys.
+     * Returns a list of pix entries.
      *
-     * @param keys array of {@code Entry} keys.
-     * @return the returned {@code Entry}. 
+     * @param keys A list of entry keys.
+     * @return The list of entries.
+     * @see Entry 
      */
     public ArrayList<Entry> getEntries(final String[] keys) {
         if (keys == null || keys.length == 0) {
