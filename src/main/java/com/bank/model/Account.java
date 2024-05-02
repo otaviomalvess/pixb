@@ -1,35 +1,32 @@
 package com.bank.model;
 
+import com.util.model.BankingDomicile;
+import com.util.model.CPF;
+
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "account")
 public class Account extends PanacheEntityBase {
     
-    @Id
-    @Column(name = "cpf")
-    public String cpf;
     
     @Column(name = "name")
     public String name;
-
-    @Column(name = "bank")
-    public int bank;
-
-    @Column(name = "branch")
-    public int branch;
-
-    @Column(name = "account")
-    public int account;
-
+    
     @Column(name = "balance")
     public double balance;
+    @Embedded
+    private BankingDomicile bankingDomicile;
 
     public Account () {}
+    // @Embedded
+    @EmbeddedId
+    private CPF cpf;
 
     public Account(final AccountRegisterDTO accountDTO) {
         this(accountDTO.name, accountDTO.cpf);
@@ -57,12 +54,6 @@ public class Account extends PanacheEntityBase {
     }
 
     /**
-     * Sets the account CPF.
-     *
-     * @param cpf The account CPF.
-     * @throws NullPointerException If the given CPF is null.
-     * @throws IllegalArgumentException If the given CPF is blank.
-     * @throws IllegalArgumentException If the given CPF length is not equal to 11.
      */
     public void setCPF(final String cpf) {
         if (cpf == null)

@@ -1,6 +1,8 @@
 package com.bank.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.util.model.BankingDomicile;
+import com.util.model.CPF;
 
 /**
  * Pix is a class containing the details and state of a pix transfer request.
@@ -11,17 +13,15 @@ public class Pix {
 
     @JsonProperty(value = "end_to_end_id")
     public long endToEndId;
+    
+    private BankingDomicile bankingDomicile;
+    private CPF cpf;
 
     @JsonProperty(value = "pkey")
     public String key;
 
-    public int bank;
 
-    public int branch;
 
-    public int account;
-    
-    public String cpf;
     
     public String owner;
 

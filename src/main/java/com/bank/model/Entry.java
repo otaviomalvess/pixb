@@ -3,9 +3,11 @@ package com.bank.model;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.util.model.BankingDomicile;
+import com.util.model.CPF;
+import com.util.model.PixKey;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.Embedded;
 
 /**
  * Entry is a class containing the details of an user account associated to a unique key.
@@ -13,7 +15,6 @@ import jakarta.persistence.Id;
 @Entity(name = "bank.Entry")
 public class Entry {
     
-    @Id
     @JsonProperty(value = "pkey")
     public String key;
     
@@ -24,12 +25,15 @@ public class Entry {
     public String endToEndId;
 
     public int bank;
+    @Embedded
+    private PixKey pixKey;
 
-    public int branch;
+    @Embedded
+    private BankingDomicile bankingDomicile;
 
-    public int account;
+    @Embedded
+    private CPF cpf;
 
-    public String cpf;
 
     public String owner;
 

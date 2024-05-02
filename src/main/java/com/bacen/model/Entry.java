@@ -3,9 +3,13 @@ package com.bacen.model;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.util.model.BankingDomicile;
+import com.util.model.CPF;
+import com.util.model.PixKey;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -29,17 +33,16 @@ public class Entry extends PanacheEntityBase {
     @JsonProperty(value = "end_to_end_id")
     public String endToEndId;
 
-    @Column(name = "bank")
-    public int bank;
+    @Embedded
+    private PixKey pixKey;
 
-    @Column(name = "branch")
-    public int branch;
+    @Embedded
+    private BankingDomicile bankingDomicile;
+    
+    @Embedded
+    private CPF cpf;
 
-    @Column(name = "account")
-    public int account;
 
-    @Column(name = "cpf")
-    public String cpf;
 
     @Column(name = "owner")
     public String owner;

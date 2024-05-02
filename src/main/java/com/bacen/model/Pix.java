@@ -1,9 +1,12 @@
 package com.bacen.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.util.model.BankingDomicile;
+import com.util.model.CPF;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -27,20 +30,9 @@ public class Pix extends PanacheEntityBase {
     @JsonProperty(value = "end_to_end_id")
     public long endToEndId;
 
-    @Column(name = "bank")
-    public int bank;
-
-    @Column(name = "branch")
-    public int branch;
-
-    @Column(name = "account")
-    public int account;
-
     @Column(name = "owner")
     public String owner;
 
-    @Column(name = "cpf")
-    public String cpf;
 
     @Column(name = "value")
     public double value;
@@ -48,4 +40,11 @@ public class Pix extends PanacheEntityBase {
     @Enumerated(value = EnumType.ORDINAL)
     @Column(name = "resolved")
     public ResolvedStates resolved;
+
+    @Embedded
+    private BankingDomicile bankingDomicile;
+
+    @Embedded
+    private CPF cpf;
+
 }
