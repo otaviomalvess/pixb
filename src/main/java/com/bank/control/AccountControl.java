@@ -5,6 +5,7 @@ import org.jboss.logging.Logger;
 import com.bank.db.BankDB;
 import com.bank.model.Account;
 import com.bank.model.AccountRegisterDTO;
+import com.util.model.CPF;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -65,15 +66,13 @@ public class AccountControl {
     /**
      * Get an account.
      * 
-     * @param cpf The CPF associated to the account
+     * @param cpfValue The CPF associated to the account
      * @return The account
      * @see Account
      */
-    public Account getAccount(final String cpf) {
-        if (cpf.isBlank()) {
-            logger.error("(getAccount) Given CPF is blank.");
-            return null;
-        }
+    public Account getAccount(final String cpfValue) {
+        return db.getAccount(new CPF(cpfValue).value);
+    }
 
     /**
      * Deposits to or draws from an account.
@@ -91,7 +90,6 @@ public class AccountControl {
                 account.draw(value);
             }
 
-        return db.getAccount(cpf);
             db.updateAccountBalance(account);
         } catch (final Exception e) {
             logger.error("(depositTo) " + e);
