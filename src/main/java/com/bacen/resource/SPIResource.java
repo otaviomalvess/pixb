@@ -11,6 +11,7 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -26,7 +27,7 @@ public class SPIResource {
     private SPI spi;
 
     @POST
-    public Response createRequest(final Pix[] pixes) {
+    public Response createRequests(final Pix[] pixes) {
         try {
             spi.createRequests(pixes);
             return Response.ok().build();
@@ -36,11 +37,11 @@ public class SPIResource {
     }
     
     @GET
-    public Response consultRequests() {
+    public Response consultRequests(@QueryParam("resolved") final boolean resolved) {
         try {
             return Response
                     .ok()
-                    .entity(spi.getRequests(true))
+                    .entity(spi.getRequests(resolved))
                     .build();
         } catch (final Exception e) {
             return Response.serverError().build();
@@ -48,7 +49,7 @@ public class SPIResource {
     }
 
     @PUT
-    public Response updateRequest(final PixRequestUpdateDTO[] toUpdate) {
+    public Response updateRequests(final PixRequestUpdateDTO[] toUpdate) {
         try {
             spi.updateRequests(toUpdate);
             return Response.ok().build();
