@@ -6,6 +6,13 @@ package com.bank.model;
  * Can be used as a constructor parameter of the Account class.
  */
 public class AccountRegisterDTO {
-    public String cpf;
-    public String name;
+    public final String cpf;
+    public final String name;
+    public final int branch;
+
+    public AccountRegisterDTO(final String cpf, final String name, final int branch) {
+        this.cpf = cpf;
+        this.name = name;
+        this.branch = branch;
+    }
 }

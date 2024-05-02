@@ -1,5 +1,6 @@
 package com.bacen.model;
 
+import com.bacen.model.Pix.ResolvedStates;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -7,8 +8,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class PixRequestUpdateDTO {
     
+    public final ResolvedStates resolved;
+    
     @JsonProperty(value = "end_to_end_id")
-    public long endToEndId;
+    public final long endToEndId;
 
-    public Pix.ResolvedStates resolved;
+    public PixRequestUpdateDTO(final ResolvedStates resolved, final long endToEndId) {
+        this.resolved = resolved;
+        this.endToEndId = endToEndId;
+    }
 }
