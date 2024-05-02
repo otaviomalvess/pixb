@@ -59,7 +59,7 @@ public class PixResourceTest {
     }
 
     @Test
-    public void consultPixRequests() {
+    public void testConsultPixRequests() {
         
         given()
             .contentType(ContentType.JSON)
@@ -69,7 +69,7 @@ public class PixResourceTest {
     }
 
     @Test
-    public void consultPixUpdates() {
+    public void testConsultPixUpdates() {
 
         given()
             .contentType(ContentType.JSON)
