@@ -65,6 +65,7 @@ public class SPIResourceTest {
     public void testConsultRequests() {
 
         given()
+            .queryParam("resolved", false)
             .get()
         .then()
             .statusCode(200)
