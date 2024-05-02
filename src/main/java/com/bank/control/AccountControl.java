@@ -33,24 +33,33 @@ public class AccountControl {
     }
 
     /**
-     * Make a deposit to an account.
+     * Deposits to an account.
      * 
      * @param cpf The CPF associated to the account
      * @param value The deposit value
      */
     public void depositTo(final String cpf, final double value) {
-        final Account account = getAccount(cpf);
-        if (account == null) {
-            logger.error("No account found.");
-            return;
-        }
+        updateBalance(false, getAccount(cpf), value);
+    }
 
-        try {
-            account.deposit(value);
-            db.updateAccountBalance(account);
-        } catch (final Exception e) {
-            logger.error("(depositTo)" + e);
-        }
+    /**
+     * Deposits to an account.
+     * 
+     * @param account The account
+     * @param value The deposit value
+     */
+    public void depositTo(final Account account, final double value) {
+        updateBalance(false, account, value);
+    }
+
+    /**
+     * Draws from an account.
+     * 
+     * @param cpf The CPF associated to the account
+     * @param value The draw value
+     */
+    public void drawFrom(final String cpf, final double value) {
+        updateBalance(false, getAccount(cpf), value);
     }
     
     /**
@@ -66,6 +75,27 @@ public class AccountControl {
             return null;
         }
 
+    /**
+     * Deposits to or draws from an account.
+     * 
+     * @param toDeposit 
+     * @param cpf The CPF associated to the account
+     * @param value The draw value
+     * @see Account
+     */
+    private void updateBalance(final boolean toDeposit, final Account account, final double value) {
+        try {
+            if (toDeposit) {
+                account.deposit(value);
+            } else {
+                account.draw(value);
+            }
+
         return db.getAccount(cpf);
+            db.updateAccountBalance(account);
+        } catch (final Exception e) {
+            logger.error("(depositTo) " + e);
+            throw new RuntimeException();
+        }
     }
 }
