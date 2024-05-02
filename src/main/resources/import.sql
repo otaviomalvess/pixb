@@ -5,18 +5,18 @@ VALUES
         (2, 'Telefone'),
         (3, 'Chave Aleatória');
 
-INSERT INTO directory(pkey, pkey_type, cpf, owner, creation_date)
-VALUES 
-        ('mail@mail.com', 1, '11111111101', 'Ana', NOW()),
-        ('+5561123456789', 2, '22222222201', 'Bob', NOW()),
-        ('11111111101', 0, '11111111101', 'Ana', NOW());
-
-INSERT INTO account(cpf, name, bank, branch, account, balance)
+INSERT INTO account(account, balance, bank, branch, cd_cpf, name)
 VALUES
-        ('11111111101', 'Ana', '', '', '', 100.0),
-        ('22222222201', 'Bob', '', '', '', 100.0);
+        (0, 100.0, 000, 00, '11111111101', 'Ana'),
+        (0, 100.0, 000, 00, '22222222201', 'Bob');
 
--- INSERT INTO pix_request(cpf, value, resolved)
+INSERT INTO directory(account, bank, branch, creation_date, key_type, cd_cpf, key, owner)
+VALUES 
+        (0, 00, 000, NOW(), 1, '11111111101', 'mail@mail.com', 'Ana'),
+        (0, 00, 000, NOW(), 2, '22222222201', '+5561123456789', 'Bob'),
+        (0, 00, 000, NOW(), 0, '22222222201', '22222222201', 'Bob');
+
+-- INSERT INTO pix_request(cd_cpf, value, resolved)
 -- VALUES 
 --         ('11111111101', 20.0, 0),
 --         ('22222222201', 20.0, 1),
