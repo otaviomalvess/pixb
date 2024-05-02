@@ -1,17 +1,20 @@
 package com.bank.control;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
-import com.bank.db.BankDB;
 import com.bank.model.Account;
+import com.bank.model.Entry;
 import com.bank.model.Pix;
 import com.bank.model.PixDTO;
 import com.bank.model.PixRequestUpdateDTO;
 import com.bank.model.PixRollbacker;
 import com.bank.service.PixService;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -74,8 +77,10 @@ public class PixControl {
         logger.info("(createPixRequest) Consult key: OK.");
 
         final Pix[] pixes;
+        final Entry[] entries;
         try {
             pixes = resp.readEntity(Pix[].class);
+            entries = resp.readEntity(Entry[].class);
         } catch (final Exception e) {
             logger.error("(createPixRequest) " + e);
             return;
@@ -84,34 +89,36 @@ public class PixControl {
         logger.info("(createPixRequest) Convert JSON to BankPix: OK.");
 
         // Draw from accounts balances
-        for (final Pix pix : pixes) {
-            if (pix == null) {
-                logger.error("(createPixRequest) Null pix.");
+        final Map<String, Double> pixDTOmap = new ObjectMapper()
+                        .convertValue(pixDTOs, new TypeReference<Map<String, Double>>() {});
+        
+        for (final Entry entry : entries) {
+            if (entry == null) {
+                logger.error("(createPixRequest) Null entry.");
                 continue;
             }
 
-            final Account account = accountControl.getAccount(pix.cpf);
-            if (account == null) {
-                continue;
-            }
-
-            for (final PixDTO dto : pixDTOs) {
-                if (dto.pixKey.equals(pix.key)) {
-                    pix.value = dto.value;
-                    break;
-                }
-            }
+            final Pix pix = new Pix(
+                    entry.endToEndId,
+                    entry.owner,
+                    pixDTOmap.get(entry.key),
+                    Pix.ResolvedStates.REQUEST,
+                    entry.getBankingDomicile(),
+                    entry.getCPF()
+            );
 
             try {
-                account.draw(pix.value);
-                db.updateAccountBalance(account);
+                accountControl.drawFrom(pix.getCPF(), pix.value);
             } catch (final Exception e) {
                 logger.error("(createPixRequest) " + e);
                 continue;
             }
 
-            // This returns a value if an entry with the key existed.
-            rollbackers.put(pix.endToEndId, new PixRollbacker(account, pix.value));
+            final Account account = accountControl.getAccount(entry.getCPF());
+            final PixRollbacker value = rollbackers.put(entry.endToEndId, new PixRollbacker(account, pix.value));
+            if (value != null) {
+                logger.warn("(createPixRequest) There was a previous value associated to the key. K: " + entry.endToEndId + ", V: " + entry.endToEndId);
+            }
 
             logger.info("(createPixRequest) Drew from account " + account.cpf + ". Backed up operation in rollbackers map.");
         }
