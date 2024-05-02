@@ -41,7 +41,7 @@ public class SPI {
         logger.info("(createPixRequest) Start.");
 
         for (final Pix pix : pixes) {
-            pix.resolved = Pix.ResolvedStates.REQUEST;
+            pix.setResolvedState(Pix.ResolvedStates.REQUEST);
             db.insertPixRequest(pix);
         }
 
@@ -91,7 +91,6 @@ public class SPI {
 
         for (final PixRequestUpdateDTO pix : toUpdate) {
             if (pix.resolved == Pix.ResolvedStates.REQUEST) {
-                // TODO: figure out what to do here.
                 logger.error("(updatePixRequests) Pix " + pix.endToEndId + " with Request resolved state. Skip.");
                 continue;
             }
