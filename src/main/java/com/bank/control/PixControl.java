@@ -184,15 +184,8 @@ public class PixControl {
             final PixRequestUpdateDTO pixUpdate = new PixRequestUpdateDTO(pix.endToEndId);
             resolvedPixes[i] = pixUpdate;
 
-            final Account account = accountControl.getAccount(pix.cpf);
-
-            if (account == null) {
-                continue;
-            }
-
             try {
-                account.deposit(pix.value);
-                db.updateAccountBalance(account);
+                accountControl.depositTo(pix.getCPF(), pix.value);
                 pixUpdate.resolved = Pix.ResolvedStates.SUCCESS;
             } catch (final Exception e) {
                 pixUpdate.resolved = Pix.ResolvedStates.FAIL;
@@ -253,9 +246,9 @@ public class PixControl {
             switch (pix.resolved) {
                 case Pix.ResolvedStates.FAIL:
                     final PixRollbacker rollbacker = rollbackers.get(pix.endToEndId);
+                    
                     try {
-                        rollbacker.account.deposit(rollbacker.value);
-                        db.updateAccountBalance(rollbacker.account);
+                        accountControl.depositTo(rollbacker.account, rollbacker.value);
                     } catch (final Exception e) {
                         logger.error("(consultUpdatedPixes)" + e);
                     }
