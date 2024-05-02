@@ -83,12 +83,14 @@ public class BacenDB implements IEntryDB, IPixDB {
         }
     }
 
-    /**
-     * Gets the pix requests of the type {@code REQUEST} from the DB.
-     *
-     * @param byResolvedState .
-     * @return a {@code List} of {@code BacenPix}.
-     */
+    public List<Pix> getResolvedRequests() {
+       return getRequests(true); 
+    }
+
+    public List<Pix> getUnResolvedRequests() {
+        return getRequests(false); 
+    }
+
     public List<Pix> getRequests(final boolean byResolvedState) {
         final String query = byResolvedState ? "resolved" : "NOT resolved";
         try {
