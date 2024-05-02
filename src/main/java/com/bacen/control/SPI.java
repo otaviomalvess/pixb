@@ -55,8 +55,8 @@ public class SPI {
      * @return The list of pix requests.
      * @see Pix
      */
-    public List<Pix> getRequests(final boolean byResolvedState) {
-        return db.getRequests(byResolvedState);
+    public List<Pix> getRequests(final boolean resolved) {
+        return resolved ? db.getResolvedRequests() : db.getUnResolvedRequests();
     }
 
     /**
