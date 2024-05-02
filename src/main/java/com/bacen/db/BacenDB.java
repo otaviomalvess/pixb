@@ -45,12 +45,6 @@ public class BacenDB implements IEntryDB, IPixDB {
         return entries;
     }
 
-    /**
-     * Gets an entry matching the given key.
-     *
-     * @param key the entry key.
-     * @return a {@code BacenEntry}.
-     */
     public Entry getEntry(final String key) {
         return Entry.findById(key);
     }
@@ -101,11 +95,6 @@ public class BacenDB implements IEntryDB, IPixDB {
         }
     }
 
-    /**
-     * Updates a Pix Request response state.
-     *
-     * @param pixUpdate .
-     */
     @Transactional
     public void updatePixRequestState(final PixRequestUpdateDTO pixUpdate) {
         try {

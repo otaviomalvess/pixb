@@ -34,11 +34,6 @@ public class BankDB implements IAccountDB {
         }
     }
 
-    /**
-     * Creates a new Pix Request.
-     *
-     * @param pix .
-     */
     @Transactional
     public void insertAccount(final Account account) {
         try {
@@ -48,12 +43,6 @@ public class BankDB implements IAccountDB {
         }
     }
 
-    /**
-     * Updates the account balance.
-     *
-     * @param account the account to update.
-     * @return an {@code Exception} if the operation didn't work.
-     */
     @Transactional
     public Exception updateAccountBalance(final Account account) {
         Exception ex = null;
