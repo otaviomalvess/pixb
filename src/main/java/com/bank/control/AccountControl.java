@@ -29,8 +29,7 @@ public class AccountControl {
      * @see AccountRegisterDTO
      */
     public void createAccount(final AccountRegisterDTO accountDTO) {
-        final Account account = new Account(accountDTO);
-        db.insertAccount(account);
+        db.insertAccount(new Account(accountDTO));
     }
 
     /**
