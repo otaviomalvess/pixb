@@ -20,51 +20,42 @@ public class Account extends PanacheEntityBase implements ICPF, IBankingDomicile
     public String name;
     
     @Column(name = "balance")
-    public double balance;
+    private double balance;
+    
     @Embedded
     private BankingDomicile bankingDomicile;
 
-    public Account () {}
     // @Embedded
     @EmbeddedId
     private CPF cpf;
 
-    public Account(final AccountRegisterDTO accountDTO) {
-        this(accountDTO.name, accountDTO.cpf);
-    }
-
-    public Account(final String name, final String cpf) {
-        setName(name);
-        setCPF(cpf);
-    }
-
     /**
-     * Sets the user name.
-     *
-     * @param name The name of the user.
-     * @throws NullPointerException If the given name is null.
-     * @throws IllegalArgumentException If the given name is blank.
+     * 
      */
-    public void setName(final String name) {
+    public Account() {}
+    
+    public Account(final AccountRegisterDTO accountDTO) {
+        this(accountDTO.name, accountDTO.cpf, accountDTO.branch);
+    }
+
+    public Account(final String name, final String cpf, final int branch) {
         if (name == null)
             throw new NullPointerException("Name cannot be null");
         if (name.isBlank())
             throw new IllegalArgumentException("Name cannot be blank");
-
+        
         this.name = name;
+        this.bankingDomicile = new BankingDomicile(branch);
+        this.cpf = new CPF(cpf);
     }
 
     /**
+     * Returns the account balance.
+     * 
+     * @return The account balance value.
      */
-    public void setCPF(final String cpf) {
-        if (cpf == null)
-            throw new NullPointerException("CPF cannot be null");
-        if (cpf.isBlank())
-            throw new IllegalArgumentException("CPF cannot be blank");
-        if (cpf.length() != 11)
-            throw new IllegalArgumentException("CPF length cannot be different of 11");
-
-        this.cpf = cpf;
+    public double getBalance() {
+        return balance;
     }
 
     /**
@@ -108,4 +99,10 @@ public class Account extends PanacheEntityBase implements ICPF, IBankingDomicile
         return bankingDomicile;
     }
 
+    /**
+     * Hibernate
+     */
+    private void setCPF(final CPF cpf) {
+        this.cpf = cpf;
+    }
 }
