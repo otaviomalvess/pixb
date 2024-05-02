@@ -60,7 +60,7 @@ public class PixControl {
         try {
             final String[] keys = new String[pixDTOs.length];
             for (int i = 0; i < keys.length; i++) {
-                keys[i] = pixDTOs[i].pixKey;
+                keys[i] = pixDTOs[i].key;
             }
 
             resp = pixService.getEntries(keys);
