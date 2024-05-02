@@ -18,12 +18,13 @@ public class BankDB implements IAccountDB {
     @Inject
     private Logger logger;
 
-    /**
-     * Gets the account from the DB.
-     *
-     * @param cpf the account tax number.
-     * @return an {@code Account}.
-     */
+    public void deleteAccount(final String cpf) {
+        final boolean success = Account.deleteById(cpf);
+        if (!success) {
+            logger.info("(deleteAccount) Entity not found.");
+        }
+    }
+
     public Account getAccount(final String cpf) {
         try {
             return Account.findById(cpf);
