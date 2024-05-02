@@ -55,6 +55,7 @@ public class PixControl {
 
         logger.info("(createPixRequest) Start.");
 
+        // Get entries
         Response resp;
         try {
             final String[] keys = new String[pixDTOs.length];
@@ -76,6 +77,7 @@ public class PixControl {
 
         logger.info("(createPixRequest) Consult key: OK.");
 
+        // Convert JSON to Pix array
         final Pix[] pixes;
         final Entry[] entries;
         try {
@@ -86,7 +88,7 @@ public class PixControl {
             return;
         }
 
-        logger.info("(createPixRequest) Convert JSON to BankPix: OK.");
+        logger.info("(createPixRequest) Convert JSON to Pix array: OK.");
 
         // Draw from accounts balances
         final Map<String, Double> pixDTOmap = new ObjectMapper()
@@ -120,9 +122,10 @@ public class PixControl {
                 logger.warn("(createPixRequest) There was a previous value associated to the key. K: " + entry.endToEndId + ", V: " + entry.endToEndId);
             }
 
-            logger.info("(createPixRequest) Drew from account " + account.cpf + ". Backed up operation in rollbackers map.");
+            logger.info("(createPixRequest) Drew from account " + account.getCPF() + ". Added to rollbackers.");
         }
 
+        // Request pix request
         try {
             resp = pixService.createPixRequests(pixes);
             
@@ -252,6 +255,7 @@ public class PixControl {
                     } catch (final Exception e) {
                         logger.error("(consultUpdatedPixes)" + e);
                     }
+                    
                     rollbackers.remove(pix.endToEndId);
                     break;
                 
@@ -260,7 +264,7 @@ public class PixControl {
                     break;
                 
                 case Pix.ResolvedStates.REQUEST:
-                    logger.info("(consultUpdatedPixes) Pix with Request state found in consult.");
+                    logger.error("(consultUpdatedPixes) Pix with Request state found in consult.");
                     break;
             }
         }
