@@ -61,13 +61,11 @@ public class PixControl {
 
             resp = pixService.getEntries(keys);
 
-            if (resp.getStatus() != 200) {
+            if (resp.getStatus() != 200)
                 throw new Exception("Status code " + resp.getStatus());
-            }
-    
-            if (!resp.hasEntity()) {
+            if (!resp.hasEntity())
                 throw new Exception("Empty body.");
-            }
+            
         } catch (final Exception e) {
             logger.error("(createPixRequest)" + e);
             return;
@@ -121,9 +119,9 @@ public class PixControl {
         try {
             resp = pixService.createPixRequests(pixes);
             
-            if (resp.getStatus() != 200) {
+            if (resp.getStatus() != 200)
                 throw new Exception("Pix request.");
-            }
+            
         } catch (final Exception e) {
             logger.error("(createPixRequest) " + e);
             return;
@@ -145,13 +143,11 @@ public class PixControl {
         try {
             resp = pixService.consultPixRequests();
 
-            if (resp.getStatus() != 200) {
+            if (resp.getStatus() != 200)
                 throw new Exception("Pix request.");
-            }
-    
-            if (!resp.hasEntity()) {
+            if (!resp.hasEntity())
                 throw new Exception("No entity.");
-            }
+            
         } catch (final Exception e) {
             logger.error("(consultPixRequest) " + e);
             return;
@@ -199,9 +195,9 @@ public class PixControl {
         try {
             resp = pixService.closePixRequests(resolvedPixes);
 
-            if (resp.getStatus() != 200) {
-                throw new Exception("(consultPixRequest) Pix request status: " + resp.getStatus());
-            }
+            if (resp.getStatus() != 200)
+                throw new Exception("Pix request status: " + resp.getStatus());
+
         } catch (final Exception e) {
             logger.error("(consultPixRequest) " + e);
             return;
@@ -223,13 +219,11 @@ public class PixControl {
         try {
             resp = pixService.consultUpdatedPixes();
 
-            if (resp.getStatus() != 200) {
-                throw new Exception("(consultUpdatedPixes) Pix requests states.");
-            }
-    
-            if (!resp.hasEntity()) {
-                throw new Exception("(consultUpdatedPixes) No entity.");
-            }
+            if (resp.getStatus() != 200)
+                throw new Exception("Pix requests states.");
+            if (!resp.hasEntity())
+                throw new Exception("No entity.");
+            
         } catch (final Exception e) {
             logger.error("(consultUpdatedPixes) " + e);
             return;
