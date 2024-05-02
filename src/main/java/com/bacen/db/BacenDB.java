@@ -24,12 +24,14 @@ public class BacenDB implements IEntryDB, IPixDB {
     @Inject
     private Logger logger;
 
-    /**
-     * Gets an array entries matching the given keys.
-     *
-     * @param keys an array of entry keys.
-     * @return an array of {@code BacenEntry}.
-     */
+    @Transactional
+    public void deleteEntry(final String key) {
+        final boolean success = Entry.deleteById(key);
+        if (!success) {
+            logger.info("(deleteAccount) Entity not found.");
+        }
+    }
+
     public ArrayList<Entry> getEntries(final String[] keys) {
         final ArrayList<Entry> entries = new ArrayList<>();
         
@@ -53,11 +55,25 @@ public class BacenDB implements IEntryDB, IPixDB {
         return Entry.findById(key);
     }
 
-    /**
-     * Creates a new Pix Request.
-     *
-     * @param pix .
-     */
+    @Transactional
+    public void insertEntry(final Entry entry) {
+        try {
+            entry.persist();
+        } catch (final Exception e) {
+            logger.error("(insertEntry) " + e);
+        }
+    }
+
+    @Transactional
+    public void updateEntryKey(final String currentKey, final String newKey) {
+        final int updates = Entry.update("key = ?1 WHERE key = ?2", newKey, currentKey);
+        if (updates == 0) {
+            logger.warn("(updateAccountBalance) 0 entities updated.");
+        } else if (updates > 1) {
+            logger.error("(updateAccountBalance) %d entities updated.".formatted(updates));
+        }
+    }
+
     @Transactional
     public void insertPixRequest(final Pix pix) {
         try {
