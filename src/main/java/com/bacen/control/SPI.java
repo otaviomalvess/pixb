@@ -51,7 +51,7 @@ public class SPI {
     /**
      * Returns a list of pix requests.
      *
-     * @param byResolvedState A boolean to specify the search method.
+     * @param resolved A boolean to specify the search method.
      * @return The list of pix requests.
      * @see Pix
      */
