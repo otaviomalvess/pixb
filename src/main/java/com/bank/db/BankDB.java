@@ -5,14 +5,14 @@ import org.jboss.logging.Logger;
 import com.bank.common.IAccountDB;
 import com.bank.model.Account;
 
-import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import jakarta.transaction.Transactional;
 
 /**
  * BankDB is a class handling any database operations related to the bank.
  */
-@ApplicationScoped
+@Singleton
 public class BankDB implements IAccountDB {
 
     @Inject

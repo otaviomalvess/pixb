@@ -10,15 +10,16 @@ import com.bacen.common.IPixDB;
 import com.bacen.model.Entry;
 import com.bacen.model.Pix;
 import com.bacen.model.PixRequestUpdateDTO;
+import com.bacen.model.Pix.ResolvedStates;
 
-import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import jakarta.transaction.Transactional;
 
 /**
  * BacenDB is a class handling any database operations related to bacen.
  */
-@ApplicationScoped
+@Singleton
 public class BacenDB implements IEntryDB, IPixDB {
 
     @Inject
