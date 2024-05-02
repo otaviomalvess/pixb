@@ -28,13 +28,10 @@ public class PixControl {
     private PixService pixService;
 
     @Inject
-    private BankDB db;
-
+    private AccountControl accountControl;
+    
     @Inject
     private Logger logger;
-
-    @Inject
-    private AccountControl accountControl;
 
     private HashMap<Long, PixRollbacker> rollbackers = new HashMap<>();
 
