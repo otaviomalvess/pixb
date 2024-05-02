@@ -18,6 +18,16 @@ public class Dict {
     private BacenDB db;
 
     /**
+     * Creates a new entry.
+     * 
+     * @param entry The entry to create.
+     * @see Entry
+     */
+    public void createEntry(final Entry entry) {
+        db.insertEntry(entry);
+    }
+
+    /**
      * Returns a list of pix entries.
      *
      * @param keys A list of entry keys.
