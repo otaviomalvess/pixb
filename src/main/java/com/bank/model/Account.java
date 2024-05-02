@@ -62,7 +62,7 @@ public class Account extends PanacheEntityBase implements ICPF, IBankingDomicile
      * Deposits the given amount to the account.
      *
      * @param value The amount to deposit.
-     * @throws Exception If the given value is not greater than .0d.
+     * @throws IllegalArgumentException If the given value is not greater than .0d.
      */
     public void deposit(final double value) throws Exception {
         if (value <= .00) {
@@ -76,7 +76,7 @@ public class Account extends PanacheEntityBase implements ICPF, IBankingDomicile
      * Draws the given amount from the account.
      *
      * @param value The amount to draw.
-     * @throws Exception If the given value is not greater than .0d.
+     * @throws IllegalArgumentException If the given value is not greater than .0d
      * @throws Exception If the account doesn't have enough balance.
      */
     public void draw(final double value) throws Exception {
