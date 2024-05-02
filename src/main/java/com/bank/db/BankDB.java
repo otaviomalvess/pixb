@@ -26,12 +26,7 @@ public class BankDB implements IAccountDB {
     }
 
     public Account getAccount(final String cpf) {
-        try {
-            return Account.findById(cpf);
-        } catch (final Exception e) {
-            logger.error("(getAccount) " + e);
-            return null;
-        }
+        return Account.findById(cpf);
     }
 
     @Transactional
@@ -44,16 +39,12 @@ public class BankDB implements IAccountDB {
     }
 
     @Transactional
-    public Exception updateAccountBalance(final Account account) {
-        Exception ex = null;
-
-        try {
-            Account.update("balance", account.balance);
-        } catch (final Exception e) {
-            logger.error("(updateAccountBalance) " + e);
-            ex = new Exception("");
+    public void updateAccountBalance(final Account account) {
+        final int updates = Account.update("balance = ?1 WHERE cpf = ?2", account.getBalance(), account.getCPF());
+        if (updates == 0) {
+            logger.warn("(updateAccountBalance) 0 entities updated.");
+        } else if (updates > 1) {
+            logger.error("(updateAccountBalance) %d entities updated".formatted(updates));
         }
-
-        return ex;
     }
 }

@@ -10,7 +10,6 @@ import com.bacen.common.IPixDB;
 import com.bacen.model.Entry;
 import com.bacen.model.Pix;
 import com.bacen.model.PixRequestUpdateDTO;
-import com.bacen.model.Pix.ResolvedStates;
 
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -47,7 +46,7 @@ public class BacenDB implements IEntryDB, IPixDB {
     }
 
     public Entry getEntry(final String key) {
-        return Entry.findById(key);
+        return Entry.find("pkey", key).singleResult();
     }
 
     @Transactional
@@ -98,16 +97,11 @@ public class BacenDB implements IEntryDB, IPixDB {
 
     @Transactional
     public void updatePixRequestState(final PixRequestUpdateDTO pixUpdate) {
-        try {
-            // BUG: the following error happens when using the `update` method:
-            //       org.hibernate.query.SemanticException: Could not interpret path expression 'end_to_end_id'
-            // Pix.update("resolved = ?1 WHERE end_to_end_id = ?2", true, id);
-            
-            final Pix pix = Pix.findById(pixUpdate.endToEndId);
-            pix.resolved = pixUpdate.resolved;
-            Pix.persist(pix);
-        } catch (final Exception e) {
-            logger.error("(updatePixRequest) " + e);
+        final int updates = Pix.update("resolved = ?1 WHERE end_to_end_id = ?2", pixUpdate.resolved, pixUpdate.endToEndId);
+        if (updates == 0) {
+            logger.warn("(updateAccountBalance) 0 entities updated.");
+        } else if (updates > 1) {
+            logger.error("(updateAccountBalance) %d entities updated.".formatted(updates));
         }
     }
 }
