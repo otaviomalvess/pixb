@@ -3,6 +3,9 @@ package com.bacen.model;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.util.common.IBankingDomicile;
+import com.util.common.ICPF;
+import com.util.common.IPixKey;
 import com.util.model.BankingDomicile;
 import com.util.model.CPF;
 import com.util.model.PixKey;
@@ -19,7 +22,7 @@ import jakarta.persistence.Table;
  */
 @Entity(name = "bacen.Entry")
 @Table(name = "directory")
-public class Entry extends PanacheEntityBase {
+public class Entry extends PanacheEntityBase implements ICPF, IBankingDomicile, IPixKey {
     
     @Id
     @Column(name = "pkey")
@@ -43,11 +46,20 @@ public class Entry extends PanacheEntityBase {
     private CPF cpf;
 
 
+    public String getCPF() {
+        return cpf.value;
+    }
 
     @Column(name = "owner")
     public String owner;
+    public BankingDomicile getBankingDomicile() {
+        return bankingDomicile;
+    }
 
     @Column(name = "creation_date")
     @JsonProperty(value = "creation_date")
     public Date creationDate;
+    public String getKey() {
+        return pixKey.key;
+    }
 }

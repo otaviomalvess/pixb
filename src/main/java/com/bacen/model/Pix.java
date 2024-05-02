@@ -1,6 +1,9 @@
 package com.bacen.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.util.common.IBankingDomicile;
+import com.util.common.ICPF;
+import com.util.common.IPix;
 import com.util.model.BankingDomicile;
 import com.util.model.CPF;
 
@@ -20,7 +23,7 @@ import jakarta.persistence.Table;
  */
 @Entity(name = "bacen.Pix")
 @Table(name = "pix_request")
-public class Pix extends PanacheEntityBase {
+public class Pix extends PanacheEntityBase implements IPix, IBankingDomicile, ICPF {
     
     public enum ResolvedStates { REQUEST, FAIL, SUCCESS }
 
@@ -47,4 +50,15 @@ public class Pix extends PanacheEntityBase {
     @Embedded
     private CPF cpf;
 
+    public long getEndToEndId() {
+        return endToEndId;
+    }
+
+    public String getCPF() {
+        return cpf.value;
+    }
+
+    public BankingDomicile getBankingDomicile() {
+        return bankingDomicile;
+    }
 }

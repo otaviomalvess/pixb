@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.jboss.logging.Logger;
 
+import com.bacen.common.IEntryDB;
+import com.bacen.common.IPixDB;
 import com.bacen.model.Entry;
 import com.bacen.model.Pix;
 import com.bacen.model.PixRequestUpdateDTO;
@@ -17,7 +19,7 @@ import jakarta.transaction.Transactional;
  * BacenDB is a class handling any database operations related to bacen.
  */
 @ApplicationScoped
-public class BacenDB {
+public class BacenDB implements IEntryDB, IPixDB {
 
     @Inject
     private Logger logger;

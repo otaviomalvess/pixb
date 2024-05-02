@@ -1,5 +1,7 @@
 package com.bank.model;
 
+import com.util.common.IBankingDomicile;
+import com.util.common.ICPF;
 import com.util.model.BankingDomicile;
 import com.util.model.CPF;
 
@@ -12,8 +14,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "account")
-public class Account extends PanacheEntityBase {
-    
+public class Account extends PanacheEntityBase implements ICPF, IBankingDomicile {
     
     @Column(name = "name")
     public String name;
@@ -98,4 +99,13 @@ public class Account extends PanacheEntityBase {
 
         balance -= value;
     }
+
+    public String getCPF() {
+        return cpf.value;
+    }
+
+    public BankingDomicile getBankingDomicile() {
+        return bankingDomicile;
+    }
+
 }

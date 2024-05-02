@@ -2,6 +2,7 @@ package com.bank.db;
 
 import org.jboss.logging.Logger;
 
+import com.bank.common.IAccountDB;
 import com.bank.model.Account;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -12,7 +13,7 @@ import jakarta.transaction.Transactional;
  * BankDB is a class handling any database operations related to the bank.
  */
 @ApplicationScoped
-public class BankDB {
+public class BankDB implements IAccountDB {
 
     @Inject
     private Logger logger;
