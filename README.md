@@ -1,56 +1,121 @@
-# pixb
+# PixB
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+An HTTP API emulating how the pix (brazilian instant payment) system works.
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+Obs.: project meant to study back-end development with Java + Quarkus.
 
-## Running the application in dev mode
+## Description
 
-You can run your application in dev mode that enables live coding using:
+The application is separated into two main performers: the Bank and Bacen.
+
+The Bank has functionality to manage user accounts, controls to draw and deposit, and manage pix requests states.
+
+The Bacen has any functionality to manage pix entries and requests. It emulates the Dict and SPI APIs.  
+
+## Technologies
+
+Java
+Quarkus
+PostgreSQL
+Docker
+
+## Running the Application
+
+As of now, the application only runs in quarkus development mode. Please, do:
 ```shell script
 ./mvnw compile quarkus:dev
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
+Or
 
-## Packaging and running the application
-
-The application can be packaged using:
 ```shell script
-./mvnw package
-```
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
-
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
-
-If you want to build an _über-jar_, execute the following command:
-```shell script
-./mvnw package -Dquarkus.package.type=uber-jar
+quarkus dev
 ```
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+## API Docs
 
-## Creating a native executable
-
-You can create a native executable using: 
-```shell script
-./mvnw package -Dnative
+Base path:
+```http
+http://localhost:8080
 ```
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using: 
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
+### Account
+
+#### Create new account
+
+Creates a new account.
+
+```http
+  POST /bank/account
 ```
 
-You can then execute your native executable with: `./target/pixb-1.0.0-SNAPSHOT-runner`
+| Body Schema   | Type       | Description                           |
+| :---------- | :--------- | :---------------------------------- |
+| `cpf` | `string` | The account tax number. |
+| `name` | `string` | The user name. |
+| `branch` | `string` | The bank branch associated to the account. |
 
-If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
+#### Get account
 
-## Provided Code
+Returns an account.
 
-### REST
+```http
+  GET /bank/account/{cpf}
+```
 
-Easily start your REST Web Services
+| Path Param   | Type       | Description                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `cpf`      | `string` | The account tax number. |
 
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+#### Deposit to
+
+Makes a deposit to an account.
+
+```http
+    PUT /bank/account/{cpf}/deposit
+```
+
+| Path Param   | Type       | Description                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `cpf`      | `string` | The account tax number. |
+
+| Body Schema   | Type       | Description                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `value`      | `float` | The value of the deposit. |
+
+### Pix
+
+#### Create Pix Requests
+
+Creates new pix requests.
+
+```http
+    POST /bank/pix/create-pix-request
+```
+
+| Body Schema (Array)   | Type       | Description                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `key`      | `string` | The pix key. |
+| `value`      | `float` | The value of the transfer. |
+
+#### Consult Pix Requests
+
+Consults pending pix requests. If any returned, a deposit is made to the assocated accounts and an state update is sent.
+
+```http
+    GET /bank/pix/consult-pix-requests
+```
+
+#### Consult Pix Updates
+
+Consults recently updated pix requests. If any are returned, a rolback operation is made on those with a failed state.
+
+```http
+    GET /bank/pix/consult-pix-requests
+```
+
+## Known Issues
+
+The following are known issues that will be addressed in upcoming updates.
+
+* Tests not working.
